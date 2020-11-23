@@ -28,6 +28,8 @@ Followed: `https://blog.miguelgrinberg.com/post/how-to-create-a-react--flask-pro
   <!-- - yarn add tinyqueue -->
   <!-- - yarn start-front -->
   - yarn install
+  - yarn add @material-ui/core@next
+  - yarn add @material-ui/core
   - yarn start
 - Go to `localhost:3000` to access the web-app.
 <br>
