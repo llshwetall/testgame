@@ -11,12 +11,14 @@ class GameSpace extends Component {
     minApproval : this.props.location.info.minApproval,
     mode: this.props.location.info.mode,
     curFunds: 100,
+    time: 0,
+    start: 0,
     dept : undefined,
     depts: [
-        { id: glob.healthId, label: "Health", info: glob.healthInfo },
-        { id: glob.defenceId, label: "Defence" ,info: glob.defenceInfo },
-        { id: glob.agricultureId, label: "Agriculture", info: glob.agricultureInfo },
-        { id: glob.educationId, label: "Education", info: glob.educationInfo },
+        { id: glob.healthId, label: "Health", info: glob.healthInfo,invst: glob.healthInvst},
+        { id: glob.defenceId, label: "Defence" ,info: glob.defenceInfo,invst: glob.defenceInvst },
+        { id: glob.agricultureId, label: "Agriculture", info: glob.agricultureInfo,invst : glob.agricultureInvst },
+        { id: glob.educationId, label: "Education", info: glob.educationInfo,invst: glob.educationInvst },
       ],
     healthOptions: [
       { id: glob.healthOp1, label: "ho1", cost: 2, status: false},
@@ -52,6 +54,7 @@ class GameSpace extends Component {
     ],
   }
 
+  
   getOptions = (id) => {
     switch(id)
     {
@@ -76,6 +79,7 @@ class GameSpace extends Component {
           curFunds = curFunds - c.cost
 
         c.status = !c.status
+
         // console.log(curFunds, c.cost)
       }
       return c;
@@ -88,7 +92,9 @@ class GameSpace extends Component {
           curFunds = curFunds + c.cost
         else
           curFunds = curFunds - c.cost
-
+        
+        glob.healthInvst = glob.healthInvst + c.cost
+        // alert(glob.healthInvst)
         c.status = !c.status
         // console.log(curFunds, c.cost)
       }
@@ -132,15 +138,33 @@ class GameSpace extends Component {
   constructor(props) {
     super(props)
   }
+  
+  startTimer = () => {
+    this.setState({
+      time: this.state.time,
+      start: Date.now(),
+    })
+    this.timer = setInterval(() => this.setState({
+      time: (Date.now() - this.state.start)/1000
+    }), 1);
+  }
 
-
+  componentDidMount() {
+    this.startTimer()
+ }
     render() {
       // console.log(this.state.term, this.state.startApproval, this.state.minApproval, this.state.mode)
       // alert(this.state.curfunds)
-        return (
+      // alert(this.state.time)
+      if (this.state.time > 10)
+      {
+        alert("time up bruh")
+      }
+      return (
           <React.Fragment>
             <NavBar />
-            <div style={{color:'white'}}> Current funds : {this.state.curFunds} </div>
+            
+        <div style={{color:'white'}}> Current funding : {this.state.curFunds} Time left : {this.state.time}</div>
             {this.state.depts.map(el =>
               <AccordionElement
                 id={el.id}

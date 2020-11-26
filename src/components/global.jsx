@@ -13,6 +13,11 @@ export default {
   agricultureId : 3,
   educationId : 4,
 
+  healthInvst : 0,
+  defenceInvst : 0,
+  agricultureInvst : 0,
+  educationInvst : 0,
+
   healthInfo : "health dept ke baare main gyaan", // fill these later
   defenceInfo : "defence dept ke baare main gyaan",
   agricultureInfo : "agriculture dept ke baare main gyaan",
