@@ -11,8 +11,11 @@ class GameSpace extends Component {
     minApproval : this.props.location.info.minApproval,
     mode: this.props.location.info.mode,
     curFunds: 100,
-    time: 0,
+    time: 100,
+    total: 100000,
     start: 0,
+    last: 0,
+    approval: 100,
     dept : undefined,
     depts: [
         { id: glob.healthId, label: "Health", info: glob.healthInfo,invst: glob.healthInvst},
@@ -89,11 +92,16 @@ class GameSpace extends Component {
       if(element !== undefined && c.id === element.id)
       {
         if(c.status)
+        {
           curFunds = curFunds + c.cost
+          glob.healthInvst = glob.healthInvst + c.cost
+        }
         else
+        {
           curFunds = curFunds - c.cost
+          glob.healthInvst = glob.healthInvst + c.cost
+        }
         
-        glob.healthInvst = glob.healthInvst + c.cost
         // alert(glob.healthInvst)
         c.status = !c.status
         // console.log(curFunds, c.cost)
@@ -145,10 +153,33 @@ class GameSpace extends Component {
       start: Date.now(),
     })
     this.timer = setInterval(() => this.setState({
-      time: (Date.now() - this.state.start)/1000
+      time: (this.state.total + this.state.start - Date.now() )/1000
     }), 1);
   }
 
+  updateVoter = () => {
+    let healthcut = (40 - glob.healthInvst)*100/40
+    let defencecut = (20 - glob.defenceInvst)*100/20
+    let agriculturecut = (20 - glob.agricultureInvst)*100/20
+    let educationcut = (20 - glob.educationInvst)*100/20
+
+    let down = 0
+
+    if (healthcut < 10 && healthcut > 0)
+    {
+      down = down + healthcut * 4 / 100
+    }
+    else if (healthcut >= 10)
+    {
+      down = down + healthcut * healthcut * 40 / 10000
+    }
+
+
+    this.setState({
+      approval: this.state.approval - down,
+      last: 100 - this.state.time,
+    })
+  }
   componentDidMount() {
     this.startTimer()
  }
@@ -156,15 +187,20 @@ class GameSpace extends Component {
       // console.log(this.state.term, this.state.startApproval, this.state.minApproval, this.state.mode)
       // alert(this.state.curfunds)
       // alert(this.state.time)
-      if (this.state.time > 10)
+      if (this.state.time < 0)
       {
         alert("time up bruh")
       }
+      if ((100 - this.state.time) - this.state.last > 5)
+      {
+        this.updateVoter()
+      }
+      
       return (
           <React.Fragment>
             <NavBar />
             
-        <div style={{color:'white'}}> Current funding : {this.state.curFunds} Time left : {this.state.time}</div>
+      <div style={{color:'white'}}> Current funding : {this.state.curFunds} Time left : {this.state.time} Approval : {this.state.approval} last : {this.state.last}</div>
             {this.state.depts.map(el =>
               <AccordionElement
                 id={el.id}
