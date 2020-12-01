@@ -11,6 +11,7 @@ class GameSpace extends Component {
     minApproval : this.props.location.info.minApproval,
     mode: this.props.location.info.mode,
     curFunds: 100,
+    food: 100,
     time: 100,
     total: 100000,
     start: 0,
@@ -158,22 +159,48 @@ class GameSpace extends Component {
   }
 
   updateVoter = () => {
-    let healthcut = (40 - glob.healthInvst)*100/40
-    let defencecut = (20 - glob.defenceInvst)*100/20
-    let agriculturecut = (20 - glob.agricultureInvst)*100/20
-    let educationcut = (20 - glob.educationInvst)*100/20
+    let heath_expec = Math.floor(100 - this.state.time) * 2
+    let defence_expec = Math.floor(100 - this.state.time)
+    let agriculture_expec = Math.floor(100 - this.state.time)
+    let education_expec = Math.floor(100 - this.state.time)
+    let healthcut = (heath_expec - glob.healthInvst)*100/heath_expec
+    let defencecut = (defence_expec - glob.defenceInvst)*100/defence_expec
+    let agriculturecut = (agriculture_expec - glob.agricultureInvst)*100/agriculture_expec
+    let educationcut = (education_expec - glob.educationInvst)*100/education_expec
 
     let down = 0
+    let health_max = 4
 
     if (healthcut < 10 && healthcut > 0)
     {
-      down = down + healthcut * 4 / 100
+      down = down + healthcut * 30 * health_max / 10000
     }
-    else if (healthcut >= 10)
+    else if (healthcut >= 30)
     {
-      down = down + healthcut * healthcut * 40 / 10000
+      down = down + healthcut * healthcut * health_max / 10000
     }
 
+    let defence_max = 4
+    if (defencecut < 60 && defencecut > 0)
+    {
+      down = down + defencecut * 60 * defence_max / 10000
+    }
+    else if (defencecut >= 30)
+    {
+      down = down + defencecut * defencecut * defence_max / 10000
+    }
+
+    let agriculture_max = 5
+    if (agriculturecut > 40)
+    {
+      down = down + (agriculturecut - 30) * agriculture_max / 4900
+    }
+
+    let education_max = 4
+    if (educationcut > 70 && educationcut > 0)
+    {
+      down = down + (educationcut - 70) * education_max / 900
+    }
 
     this.setState({
       approval: this.state.approval - down,
@@ -200,7 +227,7 @@ class GameSpace extends Component {
           <React.Fragment>
             <NavBar />
             
-      <div style={{color:'white'}}> Current funding : {this.state.curFunds} Time left : {this.state.time} Approval : {this.state.approval} last : {this.state.last}</div>
+      <div style={{color:'white'}}> Current funding : {this.state.curFunds} Time left : {Math.ceil(this.state.time)} Approval : {this.state.approval} last : {this.state.last}</div>
             {this.state.depts.map(el =>
               <AccordionElement
                 id={el.id}
