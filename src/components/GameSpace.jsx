@@ -16,7 +16,17 @@ class GameSpace extends Component {
     total: 100000,
     start: 0,
     last: 0,
-    approval: 100,
+    last_fund: 0,
+    last_app: 0,
+    health_perc: 60,
+    defence_perc: 60,
+    agriculture_perc: 60,
+    education_perc: 60,
+    last_health_perc: 60,
+    last_defence_perc: 60,
+    last_agriculture_perc: 60,
+    last_education_perc: 60,
+    approval: 80,
     dept : undefined,
     depts: [
         { id: glob.healthId, label: "Health", info: glob.healthInfo,invst: glob.healthInvst},
@@ -70,6 +80,31 @@ class GameSpace extends Component {
     }
   }
 
+  increaseHealth = (x) => {
+    this.setState({
+      time: this.state.time,
+      health_perc: this.state.health_perc + x*0.5,
+    })
+  }
+
+  increaseDef = (x) => {
+    this.setState({
+      defence_perc: this.state.defence_perc + x*0.5,
+    })
+  }
+
+  increaseAgri = (x) => {
+    this.setState({
+      agriculture_perc: this.state.agriculture_perc + x*0.5,
+    })
+  }
+
+  increaseEdu = (x) => {
+    this.setState({
+      education_perc: this.state.education_perc + x*0.5,
+    })
+  }
+
   changeButtonStatus = (element) => {
     console.log(element.id, element.status)
     let curFunds = this.state.curFunds
@@ -78,10 +113,17 @@ class GameSpace extends Component {
       if(element !== undefined && c.id === element.id)
       {
         if(c.status)
+        {
           curFunds = curFunds + c.cost
+          glob.defenceInvst = glob.defenceInvst - c.cost
+          this.increaseDef(-1*c.cost)
+        }
         else
+        {
           curFunds = curFunds - c.cost
-
+          glob.defenceInvst = glob.defenceInvst + c.cost
+          this.increaseDef(c.cost)
+        }
         c.status = !c.status
 
         // console.log(curFunds, c.cost)
@@ -95,12 +137,14 @@ class GameSpace extends Component {
         if(c.status)
         {
           curFunds = curFunds + c.cost
-          glob.healthInvst = glob.healthInvst + c.cost
+          glob.healthInvst = glob.healthInvst - c.cost
+          this.increaseHealth(-1*c.cost)
         }
         else
         {
           curFunds = curFunds - c.cost
           glob.healthInvst = glob.healthInvst + c.cost
+          this.increaseHealth(c.cost)
         }
         
         // alert(glob.healthInvst)
@@ -114,9 +158,17 @@ class GameSpace extends Component {
       if(element !== undefined && c.id === element.id)
       {
         if(c.status)
+        {
           curFunds = curFunds + c.cost
+          glob.agricultureInvst = glob.agricultureInvst - c.cost
+          this.increaseAgri(-1*c.cost)
+        }
         else
+        {
           curFunds = curFunds - c.cost
+          glob.agricultureInvst = glob.agricultureInvst + c.cost
+          this.increaseAgri(c.cost)
+        }
 
         c.status = !c.status
         // console.log(curFunds, c.cost)
@@ -128,17 +180,23 @@ class GameSpace extends Component {
       if(element !== undefined && c.id === element.id)
       {
         if(c.status)
+        {
           curFunds = curFunds + c.cost
+          glob.educationInvst = glob.educationInvst - c.cost
+          this.increaseEdu(-1*c.cost)
+        }
         else
+        {
           curFunds = curFunds - c.cost
+          glob.educationInvst = glob.educationInvst + c.cost
+          this.increaseEdu(c.cost)
+        }
 
         c.status = !c.status
         // console.log(curFunds, c.cost)
       }
       return c;
     });
-
-
 
     this.setState({ options1, options2, options3, options4, curFunds });
     // alert("set")
@@ -158,55 +216,53 @@ class GameSpace extends Component {
     }), 1);
   }
 
-  updateVoter = () => {
-    let heath_expec = Math.floor(100 - this.state.time) * 2
-    let defence_expec = Math.floor(100 - this.state.time)
-    let agriculture_expec = Math.floor(100 - this.state.time)
-    let education_expec = Math.floor(100 - this.state.time)
-    let healthcut = (heath_expec - glob.healthInvst)*100/heath_expec
-    let defencecut = (defence_expec - glob.defenceInvst)*100/defence_expec
-    let agriculturecut = (agriculture_expec - glob.agricultureInvst)*100/agriculture_expec
-    let educationcut = (education_expec - glob.educationInvst)*100/education_expec
-
-    let down = 0
-    let health_max = 4
-
-    if (healthcut < 10 && healthcut > 0)
-    {
-      down = down + healthcut * 30 * health_max / 10000
-    }
-    else if (healthcut >= 30)
-    {
-      down = down + healthcut * healthcut * health_max / 10000
-    }
-
-    let defence_max = 4
-    if (defencecut < 60 && defencecut > 0)
-    {
-      down = down + defencecut * 60 * defence_max / 10000
-    }
-    else if (defencecut >= 30)
-    {
-      down = down + defencecut * defencecut * defence_max / 10000
-    }
-
-    let agriculture_max = 5
-    if (agriculturecut > 40)
-    {
-      down = down + (agriculturecut - 30) * agriculture_max / 4900
-    }
-
-    let education_max = 4
-    if (educationcut > 70 && educationcut > 0)
-    {
-      down = down + (educationcut - 70) * education_max / 900
-    }
+  updatePerc = () => {
+    
+    let health_rate = 0.5
+    let defence_rate = 0.2
+    let education_rate = 0.2
+    let agriculture_rate = 0.1
 
     this.setState({
-      approval: this.state.approval - down,
+      health_perc: (this.state.health_perc - health_rate).toFixed(1),
+      defence_perc: (this.state.defence_perc - defence_rate).toFixed(1),
+      education_perc: (this.state.education_perc - education_rate).toFixed(1),
+      agriculture_perc: (this.state.agriculture_perc - agriculture_rate).toFixed(1),
       last: 100 - this.state.time,
     })
+
   }
+
+  updateFund = () => {
+
+    let added_fund = 0.2 * this.state.approval
+    
+    this.setState({
+      last_fund: 100 - this.state.time,
+      curFunds: this.state.curFunds + added_fund,
+    })
+  }
+
+  updateVoter = () => {
+
+    let health_change = this.state.health_perc - this.state.last_health_perc
+    let def_change = this.state.defence_perc - this.state.last_defence_perc
+    let agri_change = this.state.agriculture_perc - this.state.last_agriculture_perc
+    let edu_change = this.state.education_perc - this.state.last_education_perc
+    let app_change = 0.6*health_change + 0.4*def_change + 0.2*agri_change + 0.1*edu_change
+
+
+    // alert(edu_change)
+    this.setState({
+      last_app: 100 - this.state.time,
+      approval: (this.state.approval + app_change).toFixed(2),
+      last_agriculture_perc: this.state.agriculture_perc,
+      last_defence_perc: this.state.defence_perc,
+      last_health_perc: this.state.health_perc,
+      last_education_perc: this.state.education_perc,
+    })
+  }
+
   componentDidMount() {
     this.startTimer()
  }
@@ -218,16 +274,26 @@ class GameSpace extends Component {
       {
         alert("time up bruh")
       }
-      if ((100 - this.state.time) - this.state.last > 5)
+      if ((100 - this.state.time) - this.state.last > 1)
+      {
+        this.updatePerc()
+      }
+      
+      if ((100 - this.state.time) - this.state.last_fund > 20)
+      {
+        this.updateFund()
+      }
+
+      if ((100 - this.state.time) - this.state.last_app > 5)
       {
         this.updateVoter()
       }
-      
+
       return (
           <React.Fragment>
             <NavBar />
             
-      <div style={{color:'white'}}> Current funding : {this.state.curFunds} Time left : {Math.ceil(this.state.time)} Approval : {this.state.approval} last : {this.state.last}</div>
+      <div style={{color:'white'}}> Current funding : {this.state.curFunds} Time left : {Math.ceil(this.state.time)} Approval : {this.state.approval} health_perc : {this.state.health_perc} defence_perc : {this.state.defence_perc} agriculture_perc : {this.state.agriculture_perc} education_perc : {this.state.education_perc}</div>
             {this.state.depts.map(el =>
               <AccordionElement
                 id={el.id}
