@@ -12,8 +12,8 @@ class GameSpace extends Component {
     mode: this.props.location.info.mode,
     curFunds: 5,
     food: 100,
-    time: 100,
-    total: 100000,
+    time: 360,
+    total: 240,
     start: 0,
     last: 0,
     last_fund: 0,
@@ -26,7 +26,7 @@ class GameSpace extends Component {
     last_defence_perc: 60,
     last_agriculture_perc: 60,
     last_education_perc: 60,
-    approval: 80,
+    approval: 40,
     dept : undefined,
     depts: [
         { id: glob.healthId, label: "Health", info: glob.healthInfo,invst: glob.healthInvst},
@@ -273,7 +273,7 @@ class GameSpace extends Component {
       start: Date.now(),
     })
     this.timer = setInterval(() => this.setState({
-      time: (this.state.total + this.state.start - Date.now() )/1000
+      time: (this.state.total*1000 + this.state.start - Date.now() )/1000
     }), 1);
   }
 
@@ -289,7 +289,7 @@ class GameSpace extends Component {
       defence_perc: (this.state.defence_perc - defence_rate).toFixed(1),
       education_perc: (this.state.education_perc - education_rate).toFixed(1),
       agriculture_perc: (this.state.agriculture_perc - agriculture_rate).toFixed(1),
-      last: 100 - this.state.time,
+      last: this.state.total - this.state.time,
     })
 
   }
@@ -299,7 +299,7 @@ class GameSpace extends Component {
     let added_fund = 0.05 * this.state.approval
     added_fund = Number(added_fund.toFixed(1))
     this.setState({
-      last_fund: 100 - this.state.time,
+      last_fund: this.state.total - this.state.time,
       curFunds: Number((this.state.curFunds + added_fund).toFixed(2)),
     })
   }
@@ -310,12 +310,12 @@ class GameSpace extends Component {
     let def_change = this.state.defence_perc - this.state.last_defence_perc
     let agri_change = this.state.agriculture_perc - this.state.last_agriculture_perc
     let edu_change = this.state.education_perc - this.state.last_education_perc
-    let app_change = 0.6*health_change + 0.4*def_change + 0.2*agri_change + 0.1*edu_change
+    let app_change = (0.6*health_change + 0.4*def_change + 0.2*agri_change + 0.1*edu_change)*2
 
 
     // alert(edu_change)
     this.setState({
-      last_app: 100 - this.state.time,
+      last_app: this.state.total - this.state.time,
       approval: Number((this.state.approval + app_change).toFixed(2)),
       last_agriculture_perc: this.state.agriculture_perc,
       last_defence_perc: this.state.defence_perc,
@@ -337,6 +337,9 @@ class GameSpace extends Component {
   }
 
   componentDidMount() {
+    this.setState({
+      total: this.state.term,
+    })
     this.startTimer()
  }
     render() {
@@ -354,17 +357,17 @@ class GameSpace extends Component {
         alert("GG")
       }
 
-      if ((100 - this.state.time) - this.state.last > 1 && (100 - this.state.time) > 5)
+      if ((this.state.total - this.state.time) - this.state.last > 1 && (this.state.total - this.state.time) > 5)
       {
         this.updatePerc()
       }
       
-      if ((100 - this.state.time) - this.state.last_fund > 20 && (100 - this.state.time) > 5)
+      if ((this.state.total - this.state.time) - this.state.last_fund > 20 && (this.state.total - this.state.time) > 5)
       {
         this.updateFund()
       }
 
-      if ((100 - this.state.time) - this.state.last_app > 5 && (100 - this.state.time) > 5)
+      if ((this.state.total - this.state.time) - this.state.last_app > 1 && (this.state.total - this.state.time) > 5)
       {
         this.updateVoter()
       }
