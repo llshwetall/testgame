@@ -57,8 +57,8 @@ class GameSpace extends Component {
       { id: glob.healthOp4, label: "ho4", cost: 6, status: false},
       { id: glob.healthOp5, label: "ho5", cost: 3, status: false},
       { id: glob.healthOp6, label: "ho6", cost: 9, status: false},
-      { id: glob.healthOp5, label: "ho7", cost: 4, status: false},
-      { id: glob.healthOp6, label: "ho8", cost: 3, status: false},
+      { id: glob.healthOp7, label: "ho7", cost: 4, status: false},
+      { id: glob.healthOp8, label: "ho8", cost: 3, status: false},
     ],
     defenceOptions: [
       { id: glob.defenceOp1, label: "do1", cost: 2, status: false},
@@ -67,8 +67,8 @@ class GameSpace extends Component {
       { id: glob.defenceOp4, label: "do4", cost: 6, status: false},
       { id: glob.defenceOp5, label: "do5", cost: 3, status: false},
       { id: glob.defenceOp6, label: "do6", cost: 9, status: false},
-      { id: glob.defenceOp5, label: "do7", cost: 4, status: false},
-      { id: glob.defenceOp6, label: "do8", cost: 3, status: false},
+      { id: glob.defenceOp7, label: "do7", cost: 4, status: false},
+      { id: glob.defenceOp8, label: "do8", cost: 3, status: false},
     ],
     agricultureOptions: [
       { id: glob.agricultureOp1, label: "ao1", cost: 2, status: false},
@@ -77,8 +77,8 @@ class GameSpace extends Component {
       { id: glob.agricultureOp4, label: "ao4", cost: 6, status: false},
       { id: glob.agricultureOp5, label: "ao5", cost: 3, status: false},
       { id: glob.agricultureOp6, label: "ao6", cost: 9, status: false},
-      { id: glob.agricultureOp5, label: "ao5", cost: 4, status: false},
-      { id: glob.agricultureOp6, label: "ao6", cost: 3, status: false},
+      { id: glob.agricultureOp7, label: "ao7", cost: 4, status: false},
+      { id: glob.agricultureOp8, label: "ao8", cost: 3, status: false},
     ],
     educationOptions: [
       { id: glob.educationOp1, label: "eo1", cost: 2, status: false},
@@ -87,8 +87,8 @@ class GameSpace extends Component {
       { id: glob.educationOp4, label: "eo4", cost: 6, status: false},
       { id: glob.educationOp5, label: "eo5", cost: 3, status: false},
       { id: glob.educationOp6, label: "eo6", cost: 9, status: false},
-      { id: glob.educationOp5, label: "eo5", cost: 4, status: false},
-      { id: glob.educationOp6, label: "eo6", cost: 3, status: false},
+      { id: glob.educationOp7, label: "eo7", cost: 4, status: false},
+      { id: glob.educationOp8, label: "eo8", cost: 3, status: false},
     ],
   }
 
@@ -106,11 +106,11 @@ class GameSpace extends Component {
 
   increaseHealth = (x) => {
     let y = x
-    // if (y < 0)
-    // {
-    //   y = 3*x
-    // }
-    y = this.state.health_perc + y*0.5
+    if (y < 0)
+    {
+      y = 1.5*x
+    }
+    y = this.state.health_perc + y
     this.setState({
       time: this.state.time,
       health_perc: Number(y),
@@ -119,11 +119,11 @@ class GameSpace extends Component {
 
   increaseDef = (x) => {
     let y = x
-    // if (y < 0)
-    // {
-    //   y = 3*x
-    // }
-    y = this.state.defence_perc + y*0.5
+    if (y < 0)
+    {
+      y = 1.5*x
+    }
+    y = this.state.defence_perc + y
     this.setState({
       defence_perc: Number(y),
     })
@@ -131,12 +131,12 @@ class GameSpace extends Component {
 
   increaseAgri = (x) => {
     let y = x
-    // if (y < 0)
-    // {
-    //   y = 3*x
-    // }
+    if (y < 0)
+    {
+      y = 1.5*x
+    }
 
-    y = this.state.agriculture_perc + y*0.5
+    y = this.state.agriculture_perc + y
     this.setState({
       agriculture_perc: Number(y),
     })
@@ -144,11 +144,11 @@ class GameSpace extends Component {
 
   increaseEdu = (x) => {
     let y = x
-    // if (y < 0)
-    // {
-    //   y = 3*x
-    // }
-    y = this.state.education_perc + y*0.5
+    if (y < 0)
+    {
+      y = 1.5*x
+    }
+    y = this.state.education_perc + y
     this.setState({
       education_perc: Number(y),
     })
@@ -298,10 +298,10 @@ class GameSpace extends Component {
 
   updatePerc = () => {
     
-    let health_rate = (100 - this.state.health_perc)*0.7/100
+    let health_rate = (100 - this.state.health_perc)*0.6/100
     let defence_rate = (100 - this.state.defence_perc)*0.5/100
-    let education_rate = (100 - this.state.education_perc)*0.4/100
-    let agriculture_rate = (100 - this.state.agriculture_perc)*0.3/100
+    let education_rate = (100 - this.state.education_perc)*0.45/100
+    let agriculture_rate = (100 - this.state.agriculture_perc)*0.4/100
 
     if (isNaN(health_rate))
     {
@@ -334,7 +334,7 @@ class GameSpace extends Component {
     let def_change = this.state.defence_perc - this.state.last_defence_perc
     let agri_change = this.state.agriculture_perc - this.state.last_agriculture_perc
     let edu_change = this.state.education_perc - this.state.last_education_perc
-    let app_change = (0.6*health_change + 0.4*def_change + 0.2*agri_change + 0.1*edu_change)*2
+    let app_change = (0.6*health_change + 0.4*def_change + 0.2*agri_change + 0.1*edu_change)/2
 
 
     // alert(edu_change)

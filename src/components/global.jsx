@@ -2,11 +2,11 @@ export default {
   normalTerm : 360,
   quickTerm : 240,
 
-  normalStartApproval : 60,
-  quickStartApproval : 50,
+  normalStartApproval : 70,
+  quickStartApproval : 60,
 
-  normalMinApproval : 40,
-  quickMinApproval : 30,
+  normalMinApproval : 30,
+  quickMinApproval : 25,
 
   healthId : 1,
   defenceId : 2,
@@ -29,6 +29,8 @@ export default {
   healthOp4 : 14,
   healthOp5 : 15,
   healthOp6 : 16,
+  healthOp7 : 17,
+  healthOp8 : 18,
 
   defenceOp1 : 21,
   defenceOp2 : 22,
@@ -36,6 +38,8 @@ export default {
   defenceOp4 : 24,
   defenceOp5 : 25,
   defenceOp6 : 26,
+  defenceOp7 : 27,
+  defenceOp8 : 28,
 
   agricultureOp1 : 31,
   agricultureOp2 : 32,
@@ -43,6 +47,8 @@ export default {
   agricultureOp4 : 34,
   agricultureOp5 : 35,
   agricultureOp6 : 36,
+  agricultureOp7 : 37,
+  agricultureOp8 : 38,
 
   educationOp1 : 41,
   educationOp2 : 42,
@@ -50,6 +56,8 @@ export default {
   educationOp4 : 44,
   educationOp5 : 45,
   educationOp6 : 46,
+  educationOp7 : 47,
+  educationOp8 : 48,
 
 
 }
