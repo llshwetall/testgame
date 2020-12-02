@@ -474,6 +474,7 @@ class GameSpace extends Component {
   componentDidMount() {
     this.setState({
       total: this.state.term,
+      approval: this.state.startApproval,
     })
     // this.scenarios()
     this.startTimer()
@@ -488,7 +489,7 @@ class GameSpace extends Component {
       {
         alert("time up bruh")
       }
-      if (this.state.approval < 10)
+      if (this.state.approval < this.state.minApproval || this.state.health_perc <= 0 || this.state.defence_perc <= 0 || this.state.education_perc <= 0 || this.state.agriculture_perc <= 0)
       {
         alert("GG")
       }
