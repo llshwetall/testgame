@@ -10,7 +10,7 @@ class GameSpace extends Component {
     startApproval: this.props.location.info.startApproval,
     minApproval : this.props.location.info.minApproval,
     mode: this.props.location.info.mode,
-    curFunds: 100,
+    curFunds: 5,
     food: 100,
     time: 100,
     total: 100000,
@@ -41,6 +41,8 @@ class GameSpace extends Component {
       { id: glob.healthOp4, label: "ho4", cost: 6, status: false},
       { id: glob.healthOp5, label: "ho5", cost: 3, status: false},
       { id: glob.healthOp6, label: "ho6", cost: 9, status: false},
+      { id: glob.healthOp5, label: "ho7", cost: 4, status: false},
+      { id: glob.healthOp6, label: "ho8", cost: 3, status: false},
     ],
     defenceOptions: [
       { id: glob.defenceOp1, label: "do1", cost: 2, status: false},
@@ -49,6 +51,8 @@ class GameSpace extends Component {
       { id: glob.defenceOp4, label: "do4", cost: 6, status: false},
       { id: glob.defenceOp5, label: "do5", cost: 3, status: false},
       { id: glob.defenceOp6, label: "do6", cost: 9, status: false},
+      { id: glob.defenceOp5, label: "do7", cost: 4, status: false},
+      { id: glob.defenceOp6, label: "do8", cost: 3, status: false},
     ],
     agricultureOptions: [
       { id: glob.agricultureOp1, label: "ao1", cost: 2, status: false},
@@ -57,6 +61,8 @@ class GameSpace extends Component {
       { id: glob.agricultureOp4, label: "ao4", cost: 6, status: false},
       { id: glob.agricultureOp5, label: "ao5", cost: 3, status: false},
       { id: glob.agricultureOp6, label: "ao6", cost: 9, status: false},
+      { id: glob.agricultureOp5, label: "ao5", cost: 4, status: false},
+      { id: glob.agricultureOp6, label: "ao6", cost: 3, status: false},
     ],
     educationOptions: [
       { id: glob.educationOp1, label: "eo1", cost: 2, status: false},
@@ -65,6 +71,8 @@ class GameSpace extends Component {
       { id: glob.educationOp4, label: "eo4", cost: 6, status: false},
       { id: glob.educationOp5, label: "eo5", cost: 3, status: false},
       { id: glob.educationOp6, label: "eo6", cost: 9, status: false},
+      { id: glob.educationOp5, label: "eo5", cost: 4, status: false},
+      { id: glob.educationOp6, label: "eo6", cost: 3, status: false},
     ],
   }
 
@@ -81,27 +89,49 @@ class GameSpace extends Component {
   }
 
   increaseHealth = (x) => {
+    let y = x
+    if (y < 0)
+    {
+      y = 3*x
+    }
+
     this.setState({
       time: this.state.time,
-      health_perc: this.state.health_perc + x*0.5,
+      health_perc: this.state.health_perc + y*0.5,
     })
   }
 
   increaseDef = (x) => {
+    let y = x
+    if (y < 0)
+    {
+      y = 3*x
+    }
     this.setState({
-      defence_perc: this.state.defence_perc + x*0.5,
+      defence_perc: this.state.defence_perc + y*0.5,
     })
   }
 
   increaseAgri = (x) => {
+    let y = x
+    if (y < 0)
+    {
+      y = 3*x
+    }
+
     this.setState({
-      agriculture_perc: this.state.agriculture_perc + x*0.5,
+      agriculture_perc: this.state.agriculture_perc + y*0.5,
     })
   }
 
   increaseEdu = (x) => {
+    let y = x
+    if (y < 0)
+    {
+      y = 3*x
+    }
     this.setState({
-      education_perc: this.state.education_perc + x*0.5,
+      education_perc: this.state.education_perc + y*0.5,
     })
   }
 
@@ -114,15 +144,23 @@ class GameSpace extends Component {
       {
         if(c.status)
         {
-          curFunds = curFunds + c.cost
+          curFunds = curFunds + c.cost*0.6
           glob.defenceInvst = glob.defenceInvst - c.cost
           this.increaseDef(-1*c.cost)
         }
         else
         {
+          if (this.state.curFunds < c.cost)
+          {
+            alert("Not enough funds bruh")
+            c.status = !c.status
+          }
+          else
+          {
           curFunds = curFunds - c.cost
           glob.defenceInvst = glob.defenceInvst + c.cost
           this.increaseDef(c.cost)
+          }
         }
         c.status = !c.status
 
@@ -136,15 +174,22 @@ class GameSpace extends Component {
       {
         if(c.status)
         {
-          curFunds = curFunds + c.cost
+          curFunds = curFunds + c.cost*0.6
           glob.healthInvst = glob.healthInvst - c.cost
           this.increaseHealth(-1*c.cost)
         }
         else
         {
+          if (this.state.curFunds < c.cost)
+          {
+            alert("Not enough funds bruh")
+            c.status = !c.status
+          }
+          else{
           curFunds = curFunds - c.cost
           glob.healthInvst = glob.healthInvst + c.cost
           this.increaseHealth(c.cost)
+          }
         }
         
         // alert(glob.healthInvst)
@@ -159,20 +204,28 @@ class GameSpace extends Component {
       {
         if(c.status)
         {
-          curFunds = curFunds + c.cost
+          curFunds = curFunds + c.cost*0.6
           glob.agricultureInvst = glob.agricultureInvst - c.cost
           this.increaseAgri(-1*c.cost)
         }
         else
         {
+          if (this.state.curFunds < c.cost)
+          {
+            alert("Not enough funds bruh")
+            c.status = !c.status
+          }
+          else{
           curFunds = curFunds - c.cost
           glob.agricultureInvst = glob.agricultureInvst + c.cost
           this.increaseAgri(c.cost)
+          }
         }
 
         c.status = !c.status
         // console.log(curFunds, c.cost)
       }
+
       return c;
     });
 
@@ -181,15 +234,23 @@ class GameSpace extends Component {
       {
         if(c.status)
         {
-          curFunds = curFunds + c.cost
+          curFunds = curFunds + c.cost*0.6
           glob.educationInvst = glob.educationInvst - c.cost
           this.increaseEdu(-1*c.cost)
         }
         else
         {
+          if (this.state.curFunds < c.cost)
+          {
+            alert("Not enough funds bruh")
+            c.status = !c.status
+          }
+          else
+          {
           curFunds = curFunds - c.cost
           glob.educationInvst = glob.educationInvst + c.cost
           this.increaseEdu(c.cost)
+          }
         }
 
         c.status = !c.status
@@ -218,10 +279,10 @@ class GameSpace extends Component {
 
   updatePerc = () => {
     
-    let health_rate = 0.5
-    let defence_rate = 0.2
-    let education_rate = 0.2
-    let agriculture_rate = 0.1
+    let health_rate = (100 - this.state.health_perc)*0.7/100
+    let defence_rate = (100 - this.state.defence_perc)*0.5/100
+    let education_rate = (100 - this.state.education_perc)*0.4/100
+    let agriculture_rate = (100 - this.state.health_perc)*0.3/100
 
     this.setState({
       health_perc: (this.state.health_perc - health_rate).toFixed(1),
@@ -235,11 +296,11 @@ class GameSpace extends Component {
 
   updateFund = () => {
 
-    let added_fund = 0.2 * this.state.approval
-    
+    let added_fund = 0.05 * this.state.approval
+    added_fund = Number(added_fund.toFixed(1))
     this.setState({
       last_fund: 100 - this.state.time,
-      curFunds: this.state.curFunds + added_fund,
+      curFunds: Number((this.state.curFunds + added_fund).toFixed(2)),
     })
   }
 
@@ -255,11 +316,23 @@ class GameSpace extends Component {
     // alert(edu_change)
     this.setState({
       last_app: 100 - this.state.time,
-      approval: Math.floor(this.state.approval + app_change),
+      approval: Number((this.state.approval + app_change).toFixed(2)),
       last_agriculture_perc: this.state.agriculture_perc,
       last_defence_perc: this.state.defence_perc,
       last_health_perc: this.state.health_perc,
       last_education_perc: this.state.education_perc,
+    })
+  }
+
+  maxApp = () => {    
+    this.setState({
+      approval: 100,
+    })
+  }
+
+  minFunds = () => {    
+    this.setState({
+      curFunds: 0,
     })
   }
 
@@ -270,30 +343,47 @@ class GameSpace extends Component {
       // console.log(this.state.term, this.state.startApproval, this.state.minApproval, this.state.mode)
       // alert(this.state.curfunds)
       // alert(this.state.time)
+
+      
       if (this.state.time < 0)
       {
         alert("time up bruh")
       }
-      if ((100 - this.state.time) - this.state.last > 1)
+      if (this.state.approval < 10)
+      {
+        alert("GG")
+      }
+
+      if ((100 - this.state.time) - this.state.last > 1 && (100 - this.state.time) > 5)
       {
         this.updatePerc()
       }
       
-      if ((100 - this.state.time) - this.state.last_fund > 20)
+      if ((100 - this.state.time) - this.state.last_fund > 20 && (100 - this.state.time) > 5)
       {
         this.updateFund()
       }
 
-      if ((100 - this.state.time) - this.state.last_app > 5)
+      if ((100 - this.state.time) - this.state.last_app > 5 && (100 - this.state.time) > 5)
       {
         this.updateVoter()
+      }
+
+      if (this.state.approval > 100)
+      {
+        this.maxApp()
+      }
+
+      if (this.state.curFunds < 0)
+      {
+        this.minFunds()
       }
 
       return (
           <React.Fragment>
             <NavBar />
             
-      <div style={{color:'white'}}> Current funding : {this.state.curFunds} Time left : {Math.ceil(this.state.time)} Approval : {this.state.approval} health_perc : {this.state.health_perc} defence_perc : {this.state.defence_perc} agriculture_perc : {this.state.agriculture_perc} education_perc : {this.state.education_perc}</div>
+      <div style={{color:'white'}}> Current funding : {(this.state.curFunds).toFixed(2)} Time left : {Math.ceil(this.state.time)} Approval : {this.state.approval} health_perc : {this.state.health_perc} defence_perc : {this.state.defence_perc} agriculture_perc : {this.state.agriculture_perc} education_perc : {this.state.education_perc}</div>
             {this.state.depts.map(el =>
               <AccordionElement
                 id={el.id}
@@ -303,7 +393,6 @@ class GameSpace extends Component {
                 changeButtonStatus = {this.changeButtonStatus}
               />
             )}
-
 
           </React.Fragment>
         );
