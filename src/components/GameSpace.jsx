@@ -110,10 +110,10 @@ class GameSpace extends Component {
     // {
     //   y = 3*x
     // }
-
+    y = this.state.health_perc + y*0.5
     this.setState({
       time: this.state.time,
-      health_perc: this.state.health_perc + y*0.5,
+      health_perc: Number(y),
     })
   }
 
@@ -123,8 +123,9 @@ class GameSpace extends Component {
     // {
     //   y = 3*x
     // }
+    y = this.state.defence_perc + y*0.5
     this.setState({
-      defence_perc: this.state.defence_perc + y*0.5,
+      defence_perc: Number(y),
     })
   }
 
@@ -135,8 +136,9 @@ class GameSpace extends Component {
     //   y = 3*x
     // }
 
+    y = this.state.agriculture_perc + y*0.5
     this.setState({
-      agriculture_perc: this.state.agriculture_perc + y*0.5,
+      agriculture_perc: Number(y),
     })
   }
 
@@ -146,8 +148,9 @@ class GameSpace extends Component {
     // {
     //   y = 3*x
     // }
+    y = this.state.education_perc + y*0.5
     this.setState({
-      education_perc: this.state.education_perc + y*0.5,
+      education_perc: Number(y),
     })
   }
 
@@ -298,14 +301,18 @@ class GameSpace extends Component {
     let health_rate = (100 - this.state.health_perc)*0.7/100
     let defence_rate = (100 - this.state.defence_perc)*0.5/100
     let education_rate = (100 - this.state.education_perc)*0.4/100
-    let agriculture_rate = (100 - this.state.health_perc)*0.3/100
+    let agriculture_rate = (100 - this.state.agriculture_perc)*0.3/100
 
-    if (agriculture_rate.isNan())
+    if (isNaN(health_rate))
+    {
+      alert(this.state.health_perc)
+    }
+
     this.setState({
-      health_perc: (this.state.health_perc - health_rate).toFixed(1),
-      defence_perc: (this.state.defence_perc - defence_rate).toFixed(1),
-      education_perc: (this.state.education_perc - education_rate).toFixed(1),
-      agriculture_perc: (this.state.agriculture_perc - agriculture_rate).toFixed(1),
+      health_perc: Number((this.state.health_perc - health_rate).toFixed(1)),
+      defence_perc: Number((this.state.defence_perc - defence_rate).toFixed(1)),
+      education_perc: Number((this.state.education_perc - education_rate).toFixed(1)),
+      agriculture_perc: Number((this.state.agriculture_perc - agriculture_rate).toFixed(1)),
       last: this.state.total - this.state.time,
     })
 
