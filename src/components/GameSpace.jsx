@@ -26,6 +26,22 @@ class GameSpace extends Component {
     last_defence_perc: 60,
     last_agriculture_perc: 60,
     last_education_perc: 60,
+    sc1_time: 100000000,
+    sc2_time: 100000000,
+    sc3_time: 100000000,
+    sc4_time: 100000000,
+    sc5_time: 100000000,
+    sc6_time: 100000000,
+    sc7_time: 100000000,
+    sc8_time: 100000000,
+    sc1_flag: true,
+    sc2_flag: true,
+    sc3_flag: true,
+    sc4_flag: true,
+    sc5_flag: true,
+    sc6_flag: true,
+    sc7_flag: true,
+    sc8_flag: true,
     approval: 40,
     dept : undefined,
     depts: [
@@ -90,10 +106,10 @@ class GameSpace extends Component {
 
   increaseHealth = (x) => {
     let y = x
-    if (y < 0)
-    {
-      y = 3*x
-    }
+    // if (y < 0)
+    // {
+    //   y = 3*x
+    // }
 
     this.setState({
       time: this.state.time,
@@ -103,10 +119,10 @@ class GameSpace extends Component {
 
   increaseDef = (x) => {
     let y = x
-    if (y < 0)
-    {
-      y = 3*x
-    }
+    // if (y < 0)
+    // {
+    //   y = 3*x
+    // }
     this.setState({
       defence_perc: this.state.defence_perc + y*0.5,
     })
@@ -114,10 +130,10 @@ class GameSpace extends Component {
 
   increaseAgri = (x) => {
     let y = x
-    if (y < 0)
-    {
-      y = 3*x
-    }
+    // if (y < 0)
+    // {
+    //   y = 3*x
+    // }
 
     this.setState({
       agriculture_perc: this.state.agriculture_perc + y*0.5,
@@ -126,10 +142,10 @@ class GameSpace extends Component {
 
   increaseEdu = (x) => {
     let y = x
-    if (y < 0)
-    {
-      y = 3*x
-    }
+    // if (y < 0)
+    // {
+    //   y = 3*x
+    // }
     this.setState({
       education_perc: this.state.education_perc + y*0.5,
     })
@@ -284,6 +300,7 @@ class GameSpace extends Component {
     let education_rate = (100 - this.state.education_perc)*0.4/100
     let agriculture_rate = (100 - this.state.health_perc)*0.3/100
 
+    if (agriculture_rate.isNan())
     this.setState({
       health_perc: (this.state.health_perc - health_rate).toFixed(1),
       defence_perc: (this.state.defence_perc - defence_rate).toFixed(1),
@@ -336,10 +353,122 @@ class GameSpace extends Component {
     })
   }
 
+  scenarios = () => {    
+    let sc1_flag = this.state.sc1_flag
+    let sc2_flag = this.state.sc2_flag
+    let sc3_flag = this.state.sc3_flag
+    let sc4_flag = this.state.sc4_flag
+    let sc5_flag = this.state.sc5_flag
+    let sc6_flag = this.state.sc6_flag
+    let sc7_flag = this.state.sc7_flag
+    let sc8_flag = this.state.sc8_flag
+
+    let sc1_time = this.state.sc1_time
+    let sc2_time = this.state.sc2_time
+    let sc3_time = this.state.sc3_time
+    let sc4_time = this.state.sc4_time
+    let sc5_time = this.state.sc5_time
+    let sc6_time = this.state.sc6_time
+    let sc7_time = this.state.sc7_time
+    let sc8_time = this.state.sc8_time
+
+    let x = Math.random()
+    if (x > 0.5)
+    {
+      sc1_flag = false
+      let y = Math.random() * this.state.total
+      sc1_time = y
+    }
+
+    x = Math.random()
+    if (x > 0.5)
+    {
+      sc2_flag = false
+      let y = Math.random() * this.state.total
+      sc2_time = y
+    }
+
+    x = Math.random()
+    if (x > 0.5)
+    {
+      sc3_flag = false
+      let y = Math.random() * this.state.total
+      sc3_time = y
+    }
+
+    x = Math.random()
+    if (x > 0.5)
+    {
+      sc4_flag = false
+      let y = Math.random() * this.state.total
+      sc4_time = y
+    }
+
+    x = Math.random()
+    if (x > 0.5)
+    {
+      sc5_flag = false
+      let y = Math.random() * this.state.total
+      sc5_time = y
+    }
+
+    x = Math.random()
+    if (x > 0.5)
+    {
+      sc6_flag = false
+      let y = Math.random() * this.state.total
+      sc6_time = y
+    }
+
+    x = Math.random()
+    if (x > 0.5)
+    {
+      sc7_flag = false
+      let y = Math.random() * this.state.total
+      sc7_time = y
+    }
+
+    x = Math.random()
+    if (x > 0.5)
+    {
+      sc8_flag = false
+      let y = Math.random() * this.state.total
+      sc8_time = y
+    }
+
+    alert(sc1_time,sc2_time,sc3_time,sc4_time,sc5_time,sc6_time,sc7_time,sc8_time)
+    this.setState({
+      sc1_flag: sc1_flag,
+      sc2_flag: sc2_flag,
+      sc3_flag: sc3_flag,
+      sc4_flag: sc4_flag,
+      sc5_flag: sc5_flag,
+      sc6_flag: sc6_flag,
+      sc7_flag: sc7_flag,
+      sc8_flag: sc8_flag,
+      sc1_time: sc1_time,
+      sc2_time: sc2_time,
+      sc3_time: sc3_time,
+      sc4_time: sc4_time,
+      sc5_time: sc5_time,
+      sc6_time: sc6_time,
+      sc7_time: sc7_time,
+      sc8_time: sc8_time,
+    })
+  }
+
+  scene1 = () => {    
+    alert("woah man")
+    this.setState({
+      sc1_flag: true,
+    })
+  }
+
   componentDidMount() {
     this.setState({
       total: this.state.term,
     })
+    // this.scenarios()
     this.startTimer()
  }
     render() {
@@ -382,6 +511,7 @@ class GameSpace extends Component {
         this.minFunds()
       }
 
+      if (this.state.sc1_flag)
       return (
           <React.Fragment>
             <NavBar />
