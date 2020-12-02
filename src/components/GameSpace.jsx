@@ -255,7 +255,7 @@ class GameSpace extends Component {
     // alert(edu_change)
     this.setState({
       last_app: 100 - this.state.time,
-      approval: (this.state.approval + app_change).toFixed(2),
+      approval: Math.floor(this.state.approval + app_change),
       last_agriculture_perc: this.state.agriculture_perc,
       last_defence_perc: this.state.defence_perc,
       last_health_perc: this.state.health_perc,
