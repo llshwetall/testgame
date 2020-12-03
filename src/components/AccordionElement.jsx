@@ -12,20 +12,29 @@ import Switch from '@material-ui/core/Switch';
 import Grid from '@material-ui/core/Grid';
 import Overlay from 'react-bootstrap/Overlay'
 
+
 class AccordionElement extends Component {
 
   state = {
     // options : undefined,
+    options : undefined,
+    id: undefined,
   }
 
   constructor(props) {
     super(props);
+    this.state.id = this.props.id
+    this.state.options = this.props.options;
     // this.state.options = this.props.options;
 
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
+  isActive() {
+    return this.props.curDept === this.state.id;
+  }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return  (nextProps != this.props );
   }
 
 
@@ -35,15 +44,17 @@ class AccordionElement extends Component {
 
 
     return (
-      <Card style={{ width: '10rem'}}>
+      <Card style={{ width: '13rem'}}>
       <Accordion
+        expanded={this.isActive()}
+        onChange={this.props.onSelectOption(this.state.id)}
       >
       <AccordionSummary
       aria-controls="panel1bh-content"
       id="panel1bh-header"
       >
       <OverlayTrigger
-      placement="right"
+      placement="left"
       delay={{ show: 250, hide: 400 }}
       overlay={
         <Tooltip id="button-tooltip" {...this.props}>
@@ -58,9 +69,12 @@ class AccordionElement extends Component {
 
       <AccordionDetails >
       <div>
+
       {this.props.options.map(
-        el => <Button key={el.id} el={el} onSelectOption={this.props.changeButtonStatus} />
+        el =>
+        (<Button key={el.id} col={el.status} el={el} onSelectOption={this.props.changeButtonStatus} />)
       )}
+
       </div>
       </AccordionDetails>
       </Accordion>

@@ -2,6 +2,13 @@ import React, { Component } from 'react';
 import NavBar from './NavBar.jsx';
 import AccordionElement from './AccordionElement.jsx';
 import glob from './global.jsx'
+import SkillBar from 'react-skillbars';
+import Row from 'react-bootstrap/Row'
+import Container from 'react-bootstrap/Container'
+import Col from 'react-bootstrap/Col'
+import { PieChart } from 'react-minimal-pie-chart';
+import Card from 'react-bootstrap/Card'
+import Sound from 'react-sound';
 
 
 class GameSpace extends Component {
@@ -10,7 +17,7 @@ class GameSpace extends Component {
     startApproval: this.props.location.info.startApproval,
     minApproval : this.props.location.info.minApproval,
     mode: this.props.location.info.mode,
-    curFunds: 5,
+    curFunds: 15,
     food: 100,
     time: 360,
     total: 240,
@@ -44,6 +51,7 @@ class GameSpace extends Component {
     sc8_flag: true,
     approval: 40,
     dept : undefined,
+    curDept : undefined,
     depts: [
         { id: glob.healthId, label: "Health", info: glob.healthInfo,invst: glob.healthInvst},
         { id: glob.defenceId, label: "Defence" ,info: glob.defenceInfo,invst: glob.defenceInvst },
@@ -92,7 +100,7 @@ class GameSpace extends Component {
     ],
   }
 
-  
+
   getOptions = (id) => {
     switch(id)
     {
@@ -210,7 +218,7 @@ class GameSpace extends Component {
           this.increaseHealth(c.cost)
           }
         }
-        
+
         // alert(glob.healthInvst)
         c.status = !c.status
         // console.log(curFunds, c.cost)
@@ -285,7 +293,7 @@ class GameSpace extends Component {
   constructor(props) {
     super(props)
   }
-  
+
   startTimer = () => {
     this.setState({
       time: this.state.time,
@@ -297,7 +305,7 @@ class GameSpace extends Component {
   }
 
   updatePerc = () => {
-    
+
     let health_rate = (100 - this.state.health_perc)*0.6/100
     let defence_rate = (100 - this.state.defence_perc)*0.5/100
     let education_rate = (100 - this.state.education_perc)*0.45/100
@@ -348,19 +356,19 @@ class GameSpace extends Component {
     })
   }
 
-  maxApp = () => {    
+  maxApp = () => {
     this.setState({
       approval: 100,
     })
   }
 
-  minFunds = () => {    
+  minFunds = () => {
     this.setState({
       curFunds: 0,
     })
   }
 
-  scenarios = () => {    
+  scenarios = () => {
     let sc1_flag = this.state.sc1_flag
     let sc2_flag = this.state.sc2_flag
     let sc3_flag = this.state.sc3_flag
@@ -464,7 +472,13 @@ class GameSpace extends Component {
     })
   }
 
-  scene1 = () => {    
+  handleSelectDept = (key) => (event, isExpanded) => {
+
+    if (isExpanded === undefined || isExpanded === true) {
+    this.setState({ curDept: key })}
+  }
+
+  scene1 = () => {
     alert("woah man")
     this.setState({
       sc1_flag: true,
@@ -484,7 +498,7 @@ class GameSpace extends Component {
       // alert(this.state.curfunds)
       // alert(this.state.time)
 
-      
+
       if (this.state.time < 0)
       {
         alert("time up bruh")
@@ -498,7 +512,7 @@ class GameSpace extends Component {
       {
         this.updatePerc()
       }
-      
+
       if ((this.state.total - this.state.time) - this.state.last_fund > 20 && (this.state.total - this.state.time) > 5)
       {
         this.updateFund()
@@ -519,21 +533,107 @@ class GameSpace extends Component {
         this.minFunds()
       }
 
-      if (this.state.sc1_flag)
+      let skills_health = [
+        {type: "Health", level: this.state.health_perc, color: {bar: this.state.health_perc > 30 ? "#3498db" : "#ff1a1a", title: { background: 'grey', text: 'white' } }},
+      ];
+      let skills_defense = [
+        {type: "Defense", level: this.state.defence_perc, color: {bar: this.state.defence_perc > 30 ? "#3498db" : "#ff1a1a", title: { background: 'grey', text: 'white' } }},
+      ];
+      let skills_agr = [
+        {type: "Agriculture", level: this.state.agriculture_perc, color: {bar: this.state.agriculture_perc > 30 ? "#3498db" : "#ff1a1a", title: { background: 'grey', text: 'white' } }},
+      ];
+      let skills_edu = [
+        {type: "Education", level: this.state.education_perc, color: {bar: this.state.education_perc > 30 ? "#3498db" : "#ff1a1a", title: { background: 'grey', text: 'white' } }},
+      ];
+
+      // if (this.state.sc1_flag)
+      // <div style={{color:'white'}}>
+      //  Current funding : {(this.state.curFunds).toFixed(2)}
+      //  Time left : {Math.ceil(this.state.time)}
+      //  Approval : {this.state.approval}
+      //  health_perc : {this.state.health_perc}
+      //  defence_perc : {this.state.defence_perc}
+      //  agriculture_perc : {this.state.agriculture_perc}
+      //  education_perc : {this.state.education_perc}</div>
+
       return (
           <React.Fragment>
+          <div className="gamespace">
+
+          <Sound
+            url="./song.mp3"
+            playStatus={Sound.status.PLAYING}
+            playbackRate= {1}
+            autoLoad = {true}
+            loop = {true}
+            volume = {70}
+            onLoad={() => console.log('Loaded')}
+            onPlaying={({ position }) => console.log('Position', position)}
+            />
+
             <NavBar />
-            
-      <div style={{color:'white'}}> Current funding : {(this.state.curFunds).toFixed(2)} Time left : {Math.ceil(this.state.time)} Approval : {this.state.approval} health_perc : {this.state.health_perc} defence_perc : {this.state.defence_perc} agriculture_perc : {this.state.agriculture_perc} education_perc : {this.state.education_perc}</div>
+
+            <Container fluid style={{ paddingLeft: 15, paddingRight: 25, paddingTop: 40 }}>
+            <Row noGutters className="justify-content-md-center align-items-center"  style={{top: '20rem'}}>
+
+            <Col xs={{ span: 4, offset: 1 }} md={{ span: 3, offset: 0 }}>
+            <SkillBar skills={skills_health}  height={40} width={60} style={{ paddingTop: 1 }}/>
+            <div style={{ paddingTop: 20 }}><SkillBar skills={skills_defense}  height={40} width={55} /></div>
+            <div style={{ paddingTop: 20 }}><SkillBar skills={skills_agr}  height={40} width={55} /></div>
+            <div style={{ paddingTop: 20 }}><SkillBar skills={skills_edu}  height={40} width={55} /></div>
+            </Col>
+
+            <Col xs={{ span: 7, offset: 2 }} md={{ span: 5, offset: 1 }}>
+
+
+            <Card bg='dark'
+
+            text= 'white'
+            style={{ width: '30rem' }}
+            className="mb-2">
+              <Card.Header>Featured</Card.Header>
+              <Card.Body>
+                <Card.Title>Game Analysis</Card.Title>
+                <Card.Text>
+                <div >
+                  <div> Current funding : {this.state.curFunds.toFixed(2)} </div>
+                  <div> Time left : {Math.ceil(this.state.time)} </div>
+                  <div> Voter Approval : {this.state.approval}</div>
+                </div>
+                <div>
+                Voter Approval:
+                <PieChart
+                  data={[
+                    { title: this.state.approval , value: this.state.approval , color: '#00b300' },
+                    { title: 100 - this.state.approval , value: 100 - this.state.approval, color: '#ff1a1a'},
+                  ]}
+                  radius= '30'
+                />
+                </div>
+                </Card.Text>
+              </Card.Body>
+            </Card>
+            </Col>
+
+            <Col xs={{ span: 2, offset: 2 }} md={{ span: 2, offset: 1 }}>
+
             {this.state.depts.map(el =>
               <AccordionElement
-                id={el.id}
-                label={el.label}
-                info={el.info}
-                options={this.getOptions(el.id)}
-                changeButtonStatus = {this.changeButtonStatus}
+              id={el.id}
+              label={el.label}
+              info={el.info}
+              curDept={this.state.curDept}
+              options={this.getOptions(el.id)}
+              changeButtonStatus = {this.changeButtonStatus}
+              onSelectOption={this.handleSelectDept}
               />
             )}
+
+            </Col>
+          </Row>
+        </Container>
+        </div>
+
 
           </React.Fragment>
         );
