@@ -41,7 +41,12 @@ class AccordionElement extends Component {
   render() {
 
     let classes = "btn btn-sm btn-block btn-";
-
+      if (this.isActive()) {
+        classes += "primary";
+      }
+      else {
+        classes += "outline-secondary";
+      }
 
     return (
       <Card style={{ width: '13rem'}}>

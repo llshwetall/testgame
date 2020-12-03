@@ -51,7 +51,7 @@ class GameSpace extends Component {
     sc8_flag: true,
     approval: 40,
     dept : undefined,
-    curDept : undefined,
+    curDept : glob.healthId,
     depts: [
         { id: glob.healthId, label: "Health", info: glob.healthInfo,invst: glob.healthInvst},
         { id: glob.defenceId, label: "Defence" ,info: glob.defenceInfo,invst: glob.defenceInvst },
@@ -573,49 +573,61 @@ class GameSpace extends Component {
 
             <NavBar />
 
-            <Container fluid style={{ paddingLeft: 15, paddingRight: 25, paddingTop: 40 }}>
-            <Row noGutters className="justify-content-md-center align-items-center"  style={{top: '20rem'}}>
+            <Container fluid style={{ paddingLeft: 15, paddingRight: 25}}>
+            <Row noGutters className="justify-content-md-center "  style={{top: '20rem'}}>
 
-            <Col xs={{ span: 4, offset: 1 }} md={{ span: 3, offset: 0 }}>
+            <Col xs={{ span: 4, offset: 1 }} md={{ span: 3, offset: 0 }} style={{ paddingTop: 100}}>
             <SkillBar skills={skills_health}  height={40} width={60} style={{ paddingTop: 1 }}/>
             <div style={{ paddingTop: 20 }}><SkillBar skills={skills_defense}  height={40} width={55} /></div>
             <div style={{ paddingTop: 20 }}><SkillBar skills={skills_agr}  height={40} width={55} /></div>
             <div style={{ paddingTop: 20 }}><SkillBar skills={skills_edu}  height={40} width={55} /></div>
             </Col>
 
-            <Col xs={{ span: 7, offset: 2 }} md={{ span: 5, offset: 1 }}>
+            <Col xs={{ span: 7, offset: 2 }} md={{ span: 5, offset: 1 }} style={{ paddingTop: 60}}>
 
 
+            <Card bg='light'
+
+            text= 'dark'
+            style={{ width: '30rem' }}
+            className="mb-2">
+              <Card.Header>Welcome Mr.Prime Minister!</Card.Header>
+              <Card.Body>
+                <Card.Title>Mid-weekly reports</Card.Title>
+                <Card.Text>
+                <div >
+                  <div> Current funding : {this.state.curFunds.toFixed(2)} trillion rupees </div>
+                  <div> Time left : {Math.ceil(this.state.time) /2 } weeks </div>
+                </div>
+                </Card.Text>
+              </Card.Body>
+            </Card>
             <Card bg='dark'
-
             text= 'white'
             style={{ width: '30rem' }}
             className="mb-2">
-              <Card.Header>Featured</Card.Header>
+              <Card.Header>Voter Approval:</Card.Header>
               <Card.Body>
-                <Card.Title>Game Analysis</Card.Title>
                 <Card.Text>
                 <div >
-                  <div> Current funding : {this.state.curFunds.toFixed(2)} </div>
-                  <div> Time left : {Math.ceil(this.state.time)} </div>
-                  <div> Voter Approval : {this.state.approval}</div>
-                </div>
-                <div>
-                Voter Approval:
                 <PieChart
-                  data={[
-                    { title: this.state.approval , value: this.state.approval , color: '#00b300' },
-                    { title: 100 - this.state.approval , value: 100 - this.state.approval, color: '#ff1a1a'},
-                  ]}
-                  radius= '30'
+                data={[
+                  { title: this.state.approval , value: this.state.approval , color: '#00b300' },
+                  { title: 100 - this.state.approval , value: 100 - this.state.approval, color: '#ff1a1a'},
+                ]}
+                radius= {45}
+                center = {[80,45]}
+                viewBoxSize = {[170, 100]}
+
                 />
                 </div>
                 </Card.Text>
               </Card.Body>
             </Card>
+
             </Col>
 
-            <Col xs={{ span: 2, offset: 2 }} md={{ span: 2, offset: 1 }}>
+            <Col xs={{ span: 2, offset: 2 }} md={{ span: 2, offset: 1 }} style={{ paddingTop: 90}}>
 
             {this.state.depts.map(el =>
               <AccordionElement

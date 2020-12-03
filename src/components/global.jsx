@@ -1,6 +1,6 @@
 export default {
-  normalTerm : 360,
-  quickTerm : 240,
+  normalTerm : 416,
+  quickTerm : 312,
 
   normalStartApproval : 70,
   quickStartApproval : 60,
