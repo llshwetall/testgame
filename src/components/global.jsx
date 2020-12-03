@@ -18,10 +18,10 @@ export default {
   agricultureInvst : 0,
   educationInvst : 0,
 
-  healthInfo : "Invest in health policies to help", // fill these later
-  defenceInfo : "defence dept ke baare main gyaan",
-  agricultureInfo : "agriculture dept ke baare main gyaan",
-  educationInfo : "education dept ke baare main gyaan",
+  healthInfo : "Invest in health policies to impact public health ",
+  defenceInfo : "Invest in defence policies to impact national security",
+  agricultureInfo : "Invest in agriculture policies to impact food production and reserves",
+  educationInfo : "Invest in education policies to impact nation literacy",
 
   healthOp1 : 11,
   healthOp2 : 12,
