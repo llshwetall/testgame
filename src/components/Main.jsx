@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {BrowserRouter as Router, Switch, Route,  Link } from 'react-router-dom';
 import Home from "./Home.jsx";
 import GameSpace from "./GameSpace.jsx";
+import GameEnd from "./GameEnd.jsx";
 
 class Main extends Component {
   state = {
@@ -43,6 +44,7 @@ class Main extends Component {
       <Switch>
       <Route exact path='/' component={Home}></Route>
       <Route exact path='/gamespace' component={GameSpace}></Route>
+      <Route exact path='/gameend' component={GameEnd}></Route>
     </Switch>
     </div>
     );

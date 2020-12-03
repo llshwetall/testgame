@@ -23,3 +23,11 @@ code {
    background: url("./bg2.jpg") no-repeat;
    position: fixed;    top: 0;    left: 0;    right: 0;   bottom: 0;  background-size: cover;
  }
+
+ .square {
+     display:inline-block;
+     margin:0;
+     vertical-align:top;
+     width: 20px;
+     height: 20px;
+  }

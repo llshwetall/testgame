@@ -73,11 +73,11 @@ class AccordionElement extends Component {
       </AccordionSummary>
 
       <AccordionDetails >
-      <div>
+      <div >
 
       {this.props.options.map(
         el =>
-        (<Button key={el.id} col={el.status} el={el} onSelectOption={this.props.changeButtonStatus} />)
+        (<Button className="buttonVert" key={el.id} col={el.status} el={el} onSelectOption={this.props.changeButtonStatus} />)
       )}
 
       </div>

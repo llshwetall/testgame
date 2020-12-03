@@ -18,7 +18,7 @@ export default {
   agricultureInvst : 0,
   educationInvst : 0,
 
-  healthInfo : "health dept ke baare main gyaan", // fill these later
+  healthInfo : "Invest in health policies to help", // fill these later
   defenceInfo : "defence dept ke baare main gyaan",
   agricultureInfo : "agriculture dept ke baare main gyaan",
   educationInfo : "education dept ke baare main gyaan",
@@ -59,5 +59,118 @@ export default {
   educationOp7 : 47,
   educationOp8 : 48,
 
+
+
+  healthOp1Info : "",
+  healthOp2Info : "",
+  healthOp3Info : "",
+  healthOp4Info : "",
+  healthOp5Info : "",
+  healthOp6Info : "",
+  healthOp7Info : "",
+  healthOp8Info : "",
+
+  defenceOp1Info : "",
+  defenceOp2Info : "",
+  defenceOp3Info : "",
+  defenceOp4Info : "",
+  defenceOp5Info : "",
+  defenceOp6Info : "",
+  defenceOp7Info : "",
+  defenceOp8Info : "",
+
+  agricultureOp1Info : "",
+  agricultureOp2Info : "",
+  agricultureOp3Info : "",
+  agricultureOp4Info : "",
+  agricultureOp5Info : "",
+  agricultureOp6Info : "",
+  agricultureOp7Info : "",
+  agricultureOp8Info : "",
+
+  educationOp1Info : "",
+  educationOp2Info : "",
+  educationOp3Info : "",
+  educationOp4Info : "",
+  educationOp5Info : "",
+  educationOp6Info : "",
+  educationOp7Info : "",
+  educationOp8Info : "",
+
+
+
+
+  healthOp1Label : "Vaccine - " ,
+  healthOp2Label : "Mental Health - ",
+  healthOp3Label : "Population Control - ",
+  healthOp4Label : "Disease Control - ",
+  healthOp5Label : "Medical Research - ",
+  healthOp6Label : "New Mothers - ",
+  healthOp7Label : "Disabled People - ",
+  healthOp8Label : "Blood - ",
+
+  defenceOp1Label : "Intelligent - ",
+  defenceOp2Label : "Training - ",
+  defenceOp3Label : "RnD - ",
+  defenceOp4Label : "Safety Gear - ",
+  defenceOp5Label : "Navy Equipment - ",
+  defenceOp6Label : "Army Equipment - ",
+  defenceOp7Label : "Airforce Equipment - ",
+  defenceOp8Label : "Relief for Families - ",
+
+  agricultureOp1Label : "Equipment - ",
+  agricultureOp2Label : "Storage - ",
+  agricultureOp3Label : "Irrigation - ",
+  agricultureOp4Label : "Food Storage - ",
+  agricultureOp5Label : "Agricultural loans - ",
+  agricultureOp6Label : "Transportation - ",
+  agricultureOp7Label : "Sustainable Agriculture - ",
+  agricultureOp8Label : "Development - ",
+
+  educationOp1Label : "Vernacular Language - ",
+  educationOp2Label : "Vocational Education - ",
+  educationOp3Label : "Government Schools - ",
+  educationOp4Label : "College - ",
+  educationOp5Label : "Affordable Education - ",
+  educationOp6Label : "Teacher Pensions",
+  educationOp7Label : "Teachers for the Disabled",
+  educationOp8Label : "Training for teachers",
+
+
+  healthOp1Cost : 2,
+  healthOp2Cost : 3,
+  healthOp3Cost : 2,
+  healthOp4Cost : 6,
+  healthOp5Cost : 3,
+  healthOp6Cost : 9,
+  healthOp7Cost : 4,
+  healthOp8Cost : 3,
+
+  defenceOp1Cost : 2,
+  defenceOp2Cost : 3,
+  defenceOp3Cost : 2,
+  defenceOp4Cost : 6,
+  defenceOp5Cost : 3,
+  defenceOp6Cost : 9,
+  defenceOp7Cost : 4,
+  defenceOp8Cost : 3,
+
+  agricultureOp1Cost : 2,
+  agricultureOp2Cost : 3,
+  agricultureOp3Cost : 2,
+  agricultureOp4Cost : 6,
+  agricultureOp5Cost : 3,
+  agricultureOp6Cost : 9,
+  agricultureOp7Cost : 4,
+  agricultureOp8Cost : 3,
+
+  educationOp1Cost : 2,
+  educationOp2Cost : 3,
+  educationOp3Cost : 2,
+  educationOp4Cost : 6,
+  educationOp5Cost : 3,
+  educationOp6Cost : 9,
+  educationOp7Cost : 4,
+  educationOp8Cost : 3,
 
 }

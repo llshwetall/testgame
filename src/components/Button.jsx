@@ -14,7 +14,7 @@ class Button extends Component {
           classes += "dark";
         }
         else {
-          classes +=  "primary";
+          classes +=  "success";
         }
 
         return (
@@ -24,11 +24,12 @@ class Button extends Component {
           delay={{ show: 250, hide: 400 }}
           overlay={
             <Tooltip id="button-tooltip" {...this.props}>
-            {this.props.el.label}
+            {this.props.el.info}
             </Tooltip>
           }
           >
           <button
+          style={{ width:'10rem', fontSize: '11px', marginBottom: 0}}
           className={classes}
           onClick={() => this.props.onSelectOption(this.props.el)}
           >
