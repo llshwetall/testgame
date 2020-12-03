@@ -9,10 +9,14 @@ import Col from 'react-bootstrap/Col'
 import { PieChart } from 'react-minimal-pie-chart';
 import Card from 'react-bootstrap/Card'
 import Sound from 'react-sound';
+import { Redirect } from 'react-router';
 
 
 class GameSpace extends Component {
   state = {
+    isGameOver: false,
+    overId: -1,
+    isDeptOverId: -1,
     term: this.props.location.info.term,
     startApproval: this.props.location.info.startApproval,
     minApproval : this.props.location.info.minApproval,
@@ -475,7 +479,11 @@ class GameSpace extends Component {
   handleSelectDept = (key) => (event, isExpanded) => {
 
     if (isExpanded === undefined || isExpanded === true) {
-    this.setState({ curDept: key })}
+      this.setState({ curDept: key })}
+  }
+
+  handleGameOver = (over, id) => {
+    this.setState({ isGameOver: true, isDeptOverId: id, overId: over})
   }
 
   scene1 = () => {
@@ -486,65 +494,91 @@ class GameSpace extends Component {
   }
 
   componentDidMount() {
-    this.setState({
-      total: this.state.term,
-      approval: this.state.startApproval,
-    })
-    // this.scenarios()
-    this.startTimer()
+    if(!this.state.isGameOver)
+    {
+      this.setState({
+        total: this.state.term,
+        approval: this.state.startApproval,
+      })
+      // this.scenarios()
+      this.startTimer()
+    }
  }
     render() {
       // console.log(this.state.term, this.state.startApproval, this.state.minApproval, this.state.mode)
       // alert(this.state.curfunds)
       // alert(this.state.time)
 
+      let skills_health = undefined
+      let skills_defense = undefined
+      let skills_agr = undefined
+      let skills_edu = undefined
 
-      if (this.state.time < 0)
+      if(!this.state.isGameOver)
       {
-        alert("time up bruh")
-      }
-      if (this.state.approval < this.state.minApproval || this.state.health_perc <= 0 || this.state.defence_perc <= 0 || this.state.education_perc <= 0 || this.state.agriculture_perc <= 0)
-      {
-        alert("GG")
-      }
+        if ((this.state.total - this.state.time) - this.state.last > 1 && (this.state.total - this.state.time) > 5)
+        {
+          this.updatePerc()
+        }
 
-      if ((this.state.total - this.state.time) - this.state.last > 1 && (this.state.total - this.state.time) > 5)
-      {
-        this.updatePerc()
-      }
+        if ((this.state.total - this.state.time) - this.state.last_fund > 20 && (this.state.total - this.state.time) > 5)
+        {
+          this.updateFund()
+        }
 
-      if ((this.state.total - this.state.time) - this.state.last_fund > 20 && (this.state.total - this.state.time) > 5)
-      {
-        this.updateFund()
-      }
+        if ((this.state.total - this.state.time) - this.state.last_app > 1 && (this.state.total - this.state.time) > 5)
+        {
+          this.updateVoter()
+        }
 
-      if ((this.state.total - this.state.time) - this.state.last_app > 1 && (this.state.total - this.state.time) > 5)
-      {
-        this.updateVoter()
-      }
+        if (this.state.approval > 100)
+        {
+          this.maxApp()
+        }
 
-      if (this.state.approval > 100)
-      {
-        this.maxApp()
-      }
+        if (this.state.curFunds < 0)
+        {
+          this.minFunds()
+        }
 
-      if (this.state.curFunds < 0)
-      {
-        this.minFunds()
-      }
+        skills_health = [
+          {type: "Health", level: this.state.health_perc, color: {bar: this.state.health_perc > 30 ? "#3498db" : "#ff1a1a", title: { background: 'grey', text: 'white' } }},
+        ];
+        skills_defense = [
+          {type: "Defense", level: this.state.defence_perc, color: {bar: this.state.defence_perc > 30 ? "#3498db" : "#ff1a1a", title: { background: 'grey', text: 'white' } }},
+        ];
+        skills_agr = [
+          {type: "Agriculture", level: this.state.agriculture_perc, color: {bar: this.state.agriculture_perc > 30 ? "#3498db" : "#ff1a1a", title: { background: 'grey', text: 'white' } }},
+        ];
+        skills_edu = [
+          {type: "Education", level: this.state.education_perc, color: {bar: this.state.education_perc > 30 ? "#3498db" : "#ff1a1a", title: { background: 'grey', text: 'white' } }},
+        ];
 
-      let skills_health = [
-        {type: "Health", level: this.state.health_perc, color: {bar: this.state.health_perc > 30 ? "#3498db" : "#ff1a1a", title: { background: 'grey', text: 'white' } }},
-      ];
-      let skills_defense = [
-        {type: "Defense", level: this.state.defence_perc, color: {bar: this.state.defence_perc > 30 ? "#3498db" : "#ff1a1a", title: { background: 'grey', text: 'white' } }},
-      ];
-      let skills_agr = [
-        {type: "Agriculture", level: this.state.agriculture_perc, color: {bar: this.state.agriculture_perc > 30 ? "#3498db" : "#ff1a1a", title: { background: 'grey', text: 'white' } }},
-      ];
-      let skills_edu = [
-        {type: "Education", level: this.state.education_perc, color: {bar: this.state.education_perc > 30 ? "#3498db" : "#ff1a1a", title: { background: 'grey', text: 'white' } }},
-      ];
+        if (this.state.time < 0 )
+        {
+          this.handleGameOver(glob.timeOver, -1)
+        }
+        if (this.state.approval < this.state.minApproval )
+        {
+          this.handleGameOver(glob.approvalOver, -1)
+        }
+        if(this.state.health_perc <= 0 )
+        {
+          this.handleGameOver(glob.deptOver, glob.healthId)
+        }
+        if( this.state.defence_perc <= 0 )
+        {
+          this.handleGameOver(glob.deptOver, glob.defenceId)
+        }
+        if(this.state.education_perc <= 0 )
+        {
+          this.handleGameOver(glob.deptOver, glob.educationId)
+        }
+        if(this.state.agriculture_perc <= 0 )
+        {
+          this.handleGameOver(glob.deptOver,glob.agricultureId)
+        }
+      }
 
       // if (this.state.sc1_flag)
       // <div style={{color:'white'}}>
@@ -555,96 +589,107 @@ class GameSpace extends Component {
       //  defence_perc : {this.state.defence_perc}
       //  agriculture_perc : {this.state.agriculture_perc}
       //  education_perc : {this.state.education_perc}</div>
+      let Playing = undefined
+
+      if (!this.state.isGameOver)
+      {
+        Playing = <div className="gamespace">
+        <Sound
+        url="./song.mp3"
+        playStatus={Sound.status.PLAYING}
+        playbackRate= {1}
+        autoLoad = {true}
+        loop = {true}
+        volume = {70}
+        onLoad={() => console.log('Loaded')}
+        onPlaying={({ position }) => console.log('Position', position)}
+        />
+
+        <NavBar />
+
+        <Container fluid style={{ paddingLeft: 15, paddingRight: 25}}>
+        <Row noGutters className="justify-content-md-center "  style={{top: '20rem'}}>
+
+        <Col xs={{ span: 4, offset: 1 }} md={{ span: 3, offset: 0 }} style={{ paddingTop: 100}}>
+        <SkillBar skills={skills_health}  height={40} width={60} style={{ paddingTop: 1 }}/>
+        <div style={{ paddingTop: 20 }}><SkillBar skills={skills_defense}  height={40} width={55} /></div>
+        <div style={{ paddingTop: 20 }}><SkillBar skills={skills_agr}  height={40} width={55} /></div>
+        <div style={{ paddingTop: 20 }}><SkillBar skills={skills_edu}  height={40} width={55} /></div>
+        </Col>
+
+        <Col xs={{ span: 7, offset: 2 }} md={{ span: 5, offset: 1 }} style={{ paddingTop: 60}}>
+
+
+        <Card bg='light'
+
+        text= 'dark'
+        style={{ width: '30rem' }}
+        className="mb-2">
+        <Card.Header>Welcome Mr.Prime Minister!</Card.Header>
+        <Card.Body>
+        <Card.Title>Mid-weekly reports</Card.Title>
+        <Card.Text>
+        <div >
+        <div> Current funding : {this.state.curFunds.toFixed(2)} trillion rupees </div>
+        <div> Time left : {Math.ceil(this.state.time) /2 } weeks </div>
+        </div>
+        </Card.Text>
+        </Card.Body>
+        </Card>
+        <Card bg='dark'
+        text= 'white'
+        style={{ width: '30rem' }}
+        className="mb-2">
+        <Card.Header>Voter Approval:</Card.Header>
+        <Card.Body>
+        <Card.Text>
+        <div >
+        <PieChart
+        data={[
+          { title: this.state.approval , value: this.state.approval , color: '#00b300' },
+          { title: 100 - this.state.approval , value: 100 - this.state.approval, color: '#ff1a1a'},
+        ]}
+        radius= {45}
+        center = {[80,45]}
+        viewBoxSize = {[170, 100]}
+
+        />
+        </div>
+        </Card.Text>
+        </Card.Body>
+        </Card>
+
+        </Col>
+
+        <Col xs={{ span: 2, offset: 2 }} md={{ span: 2, offset: 1 }} style={{ paddingTop: 10}}>
+
+        {this.state.depts.map(el =>
+          <AccordionElement
+          id={el.id}
+          label={el.label}
+          info={el.info}
+          curDept={this.state.curDept}
+          options={this.getOptions(el.id)}
+          changeButtonStatus = {this.changeButtonStatus}
+          onSelectOption={this.handleSelectDept}
+          />
+        )}
+
+        </Col>
+        </Row>
+        </Container>
+        </div>
+
+      }
+      else
+      {
+        alert(this.state.overId)
+      }
+
 
       return (
           <React.Fragment>
-          <div className="gamespace">
-
-          <Sound
-            url="./song.mp3"
-            playStatus={Sound.status.PLAYING}
-            playbackRate= {1}
-            autoLoad = {true}
-            loop = {true}
-            volume = {70}
-            onLoad={() => console.log('Loaded')}
-            onPlaying={({ position }) => console.log('Position', position)}
-            />
-
-            <NavBar />
-
-            <Container fluid style={{ paddingLeft: 15, paddingRight: 25}}>
-            <Row noGutters className="justify-content-md-center "  style={{top: '20rem'}}>
-
-            <Col xs={{ span: 4, offset: 1 }} md={{ span: 3, offset: 0 }} style={{ paddingTop: 100}}>
-            <SkillBar skills={skills_health}  height={40} width={60} style={{ paddingTop: 1 }}/>
-            <div style={{ paddingTop: 20 }}><SkillBar skills={skills_defense}  height={40} width={55} /></div>
-            <div style={{ paddingTop: 20 }}><SkillBar skills={skills_agr}  height={40} width={55} /></div>
-            <div style={{ paddingTop: 20 }}><SkillBar skills={skills_edu}  height={40} width={55} /></div>
-            </Col>
-
-            <Col xs={{ span: 7, offset: 2 }} md={{ span: 5, offset: 1 }} style={{ paddingTop: 60}}>
-
-
-            <Card bg='light'
-
-            text= 'dark'
-            style={{ width: '30rem' }}
-            className="mb-2">
-              <Card.Header>Welcome Mr.Prime Minister!</Card.Header>
-              <Card.Body>
-                <Card.Title>Mid-weekly reports</Card.Title>
-                <Card.Text>
-                <div >
-                  <div> Current funding : {this.state.curFunds.toFixed(2)} trillion rupees </div>
-                  <div> Time left : {Math.ceil(this.state.time) /2 } weeks </div>
-                </div>
-                </Card.Text>
-              </Card.Body>
-            </Card>
-            <Card bg='dark'
-            text= 'white'
-            style={{ width: '30rem' }}
-            className="mb-2">
-              <Card.Header>Voter Approval:</Card.Header>
-              <Card.Body>
-                <Card.Text>
-                <div >
-                <PieChart
-                data={[
-                  { title: this.state.approval , value: this.state.approval , color: '#00b300' },
-                  { title: 100 - this.state.approval , value: 100 - this.state.approval, color: '#ff1a1a'},
-                ]}
-                radius= {45}
-                center = {[80,45]}
-                viewBoxSize = {[170, 100]}
-
-                />
-                </div>
-                </Card.Text>
-              </Card.Body>
-            </Card>
-
-            </Col>
-
-            <Col xs={{ span: 2, offset: 2 }} md={{ span: 2, offset: 1 }} style={{ paddingTop: 10}}>
-
-            {this.state.depts.map(el =>
-              <AccordionElement
-              id={el.id}
-              label={el.label}
-              info={el.info}
-              curDept={this.state.curDept}
-              options={this.getOptions(el.id)}
-              changeButtonStatus = {this.changeButtonStatus}
-              onSelectOption={this.handleSelectDept}
-              />
-            )}
-
-            </Col>
-          </Row>
-        </Container>
-        </div>
+          {Playing}
 
 
           </React.Fragment>

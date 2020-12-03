@@ -21,7 +21,7 @@ export default {
   healthInfo : "Invest in health policies to impact public health ",
   defenceInfo : "Invest in defence policies to impact national security",
   agricultureInfo : "Invest in agriculture policies to impact food production and reserves",
-  educationInfo : "Invest in education policies to impact nation literacy",
+  educationInfo : "Invest in education policies to impact national literacy",
 
   healthOp1 : 11,
   healthOp2 : 12,
@@ -61,7 +61,7 @@ export default {
 
 
 
-  healthOp1Info : "",
+  healthOp1Info : "Invest funds to vaccinate the public against polio, measles, mumps, diphtheria and influenza",
   healthOp2Info : "",
   healthOp3Info : "",
   healthOp4Info : "",
@@ -172,5 +172,10 @@ export default {
   educationOp6Cost : 9,
   educationOp7Cost : 4,
   educationOp8Cost : 3,
+
+  timeOver: 1,
+  approvalOver: 2,
+  deptOver: 3,
+
 
 }
