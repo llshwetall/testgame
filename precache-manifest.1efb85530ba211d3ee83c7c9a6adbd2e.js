@@ -1,27 +1,27 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "34c3041b0a39ea9484eb87485c7de746",
+    "revision": "77a4792f175da1aba1fe70c9af3a216d",
     "url": "/testgame/index.html"
   },
   {
-    "revision": "a8327f14bfc400c94182",
-    "url": "/testgame/static/css/2.6414bb7b.chunk.css"
+    "revision": "fb4c0f2b4b54511b8a5e",
+    "url": "/testgame/static/css/2.dec86d71.chunk.css"
   },
   {
-    "revision": "bdc3e3cb0d4ac9f99629",
+    "revision": "87f31c438fc05410d946",
     "url": "/testgame/static/css/main.7ca4cdff.chunk.css"
   },
   {
-    "revision": "a8327f14bfc400c94182",
-    "url": "/testgame/static/js/2.7bc58d2b.chunk.js"
+    "revision": "fb4c0f2b4b54511b8a5e",
+    "url": "/testgame/static/js/2.2893cd14.chunk.js"
   },
   {
-    "revision": "b502c051ddd0446fa3df648525f83a55",
-    "url": "/testgame/static/js/2.7bc58d2b.chunk.js.LICENSE.txt"
+    "revision": "ff91598454b82d07456667b827279715",
+    "url": "/testgame/static/js/2.2893cd14.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "bdc3e3cb0d4ac9f99629",
-    "url": "/testgame/static/js/main.9519d068.chunk.js"
+    "revision": "87f31c438fc05410d946",
+    "url": "/testgame/static/js/main.7ed4b39e.chunk.js"
   },
   {
     "revision": "e17f6cf7e4ccb5cc8042",
