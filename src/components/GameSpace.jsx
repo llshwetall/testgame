@@ -46,13 +46,13 @@ class GameSpace extends Component {
     last_agriculture_perc: 60,
     last_education_perc: 60,
     sc1_time: 350,
-    sc2_time: 340,
-    sc3_time: 330,
-    sc4_time: 320,
-    sc5_time: 310,
-    sc6_time: 300,
-    sc7_time: 290,
-    sc8_time: 280,
+    sc2_time: 125,
+    sc3_time: 310,
+    sc4_time: 280,
+    sc5_time: 250,
+    sc6_time: 210,
+    sc7_time: 190,
+    sc8_time: 150,
     sc1_flag: true,
     sc2_flag: true,
     sc3_flag: true,
@@ -150,7 +150,7 @@ class GameSpace extends Component {
     let y = x
     if (y < 0)
     {
-      y = 1.5*x
+      y = 2.1*x
     }
     y = this.state.health_perc + y
     this.setState({
@@ -163,7 +163,7 @@ class GameSpace extends Component {
     let y = x
     if (y < 0)
     {
-      y = 1.5*x
+      y = 1.8*x
     }
     y = this.state.defence_perc + y
     this.setState({
@@ -175,7 +175,7 @@ class GameSpace extends Component {
     let y = x
     if (y < 0)
     {
-      y = 1.5*x
+      y = 1.7*x
     }
 
     y = this.state.agriculture_perc + y
@@ -188,7 +188,7 @@ class GameSpace extends Component {
     let y = x
     if (y < 0)
     {
-      y = 1.5*x
+      y = 1.7*x
     }
     y = this.state.education_perc + y
     this.setState({
@@ -340,10 +340,35 @@ class GameSpace extends Component {
 
   updatePerc = () => {
 
-    let health_rate = (100 - this.state.health_perc)*0.65/100
-    let defence_rate = (100 - this.state.defence_perc)*0.5/100
-    let education_rate = (100 - this.state.education_perc)*0.45/100
-    let agriculture_rate = (100 - this.state.agriculture_perc)*0.45/100
+    let health_rate = 3*(100 - this.state.health_perc)*0.65/100 + 0.1
+    let defence_rate = 2*(100 - this.state.defence_perc)*0.5/100 + 0.1
+    let education_rate = 2*(100 - this.state.education_perc)*0.25/100 + 0.1
+    let agriculture_rate = 2*(100 - this.state.agriculture_perc)*0.45/100 + 0.1
+
+    if (this.state.health_perc > 70 && this.state.time > 30)
+    {
+      health_rate = health_rate / 6
+    }
+
+    if (this.state.defence_perc > 70 && this.state.time > 50)
+    {
+      defence_rate = defence_rate / 2.5
+    }
+
+    if (this.state.agriculture_perc > 70 && this.state.time > 50)
+    {
+      agriculture_rate = agriculture_rate / 1.35
+    }
+
+    if (this.state.agriculture_perc > 50 && this.state.time > 100)
+    {
+      agriculture_rate = agriculture_rate / 1.35
+    }
+
+    if (this.state.education_perc > 50)
+    {
+      education_rate = education_rate / 1.1
+    }
 
     if (isNaN(health_rate))
     {
@@ -362,7 +387,7 @@ class GameSpace extends Component {
 
   updateFund = () => {
 
-    let added_fund = 0.08 * this.state.approval + 3
+    let added_fund = 0.08 * this.state.approval + 5
     added_fund = Number(added_fund.toFixed(1))
     this.setState({
       last_fund: this.state.total - this.state.time,
