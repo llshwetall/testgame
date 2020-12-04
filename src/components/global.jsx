@@ -2,7 +2,7 @@ export default {
   normalTerm : 416,
   quickTerm : 312,
 
-  normalStartApproval : 70,
+  normalStartApproval : 65,
   quickStartApproval : 60,
 
   normalMinApproval : 30,

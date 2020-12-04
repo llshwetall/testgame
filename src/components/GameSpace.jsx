@@ -21,30 +21,30 @@ class GameSpace extends Component {
     startApproval: this.props.location.info.startApproval,
     minApproval : this.props.location.info.minApproval,
     mode: this.props.location.info.mode,
-    curFunds: 15,
+    curFunds: 12,
     food: 100,
-    time: 360,
+    time: 1000,
     total: 240,
     start: 0,
     last: 0,
     last_fund: 0,
     last_app: 0,
-    health_perc: 60,
-    defence_perc: 60,
-    agriculture_perc: 60,
-    education_perc: 60,
+    health_perc: 68,
+    defence_perc: 62,
+    agriculture_perc: 67,
+    education_perc: 80,
     last_health_perc: 60,
     last_defence_perc: 60,
     last_agriculture_perc: 60,
     last_education_perc: 60,
-    sc1_time: 100000000,
-    sc2_time: 100000000,
-    sc3_time: 100000000,
-    sc4_time: 100000000,
-    sc5_time: 100000000,
-    sc6_time: 100000000,
-    sc7_time: 100000000,
-    sc8_time: 100000000,
+    sc1_time: 350,
+    sc2_time: 340,
+    sc3_time: 330,
+    sc4_time: 320,
+    sc5_time: 310,
+    sc6_time: 300,
+    sc7_time: 290,
+    sc8_time: 280,
     sc1_flag: true,
     sc2_flag: true,
     sc3_flag: true,
@@ -310,10 +310,10 @@ class GameSpace extends Component {
 
   updatePerc = () => {
 
-    let health_rate = (100 - this.state.health_perc)*0.6/100
+    let health_rate = (100 - this.state.health_perc)*0.65/100
     let defence_rate = (100 - this.state.defence_perc)*0.5/100
     let education_rate = (100 - this.state.education_perc)*0.45/100
-    let agriculture_rate = (100 - this.state.agriculture_perc)*0.4/100
+    let agriculture_rate = (100 - this.state.agriculture_perc)*0.45/100
 
     if (isNaN(health_rate))
     {
@@ -332,7 +332,7 @@ class GameSpace extends Component {
 
   updateFund = () => {
 
-    let added_fund = 0.05 * this.state.approval
+    let added_fund = 0.08 * this.state.approval + 3
     added_fund = Number(added_fund.toFixed(1))
     this.setState({
       last_fund: this.state.total - this.state.time,
@@ -395,67 +395,51 @@ class GameSpace extends Component {
     if (x > 0.5)
     {
       sc1_flag = false
-      let y = Math.random() * this.state.total
-      sc1_time = y
     }
 
     x = Math.random()
     if (x > 0.5)
     {
       sc2_flag = false
-      let y = Math.random() * this.state.total
-      sc2_time = y
     }
 
     x = Math.random()
     if (x > 0.5)
     {
       sc3_flag = false
-      let y = Math.random() * this.state.total
-      sc3_time = y
     }
 
     x = Math.random()
     if (x > 0.5)
     {
       sc4_flag = false
-      let y = Math.random() * this.state.total
-      sc4_time = y
     }
 
     x = Math.random()
     if (x > 0.5)
     {
       sc5_flag = false
-      let y = Math.random() * this.state.total
-      sc5_time = y
     }
 
     x = Math.random()
     if (x > 0.5)
     {
       sc6_flag = false
-      let y = Math.random() * this.state.total
-      sc6_time = y
     }
 
     x = Math.random()
     if (x > 0.5)
     {
       sc7_flag = false
-      let y = Math.random() * this.state.total
-      sc7_time = y
     }
 
     x = Math.random()
     if (x > 0.5)
     {
       sc8_flag = false
-      let y = Math.random() * this.state.total
-      sc8_time = y
     }
 
-    alert(sc1_time,sc2_time,sc3_time,sc4_time,sc5_time,sc6_time,sc7_time,sc8_time)
+    alert(this.state.time)
     this.setState({
       sc1_flag: sc1_flag,
       sc2_flag: sc2_flag,
@@ -487,9 +471,74 @@ class GameSpace extends Component {
   }
 
   scene1 = () => {
-    alert("woah man")
+    alert("woah man scene 1 here")
+    console.log("woah")
     this.setState({
       sc1_flag: true,
+      health_perc: this.state.health_perc - 5,
+    })
+  }
+
+  scene2 = () => {
+    alert("woah man scene 2 here")
+    console.log("woah")
+    this.setState({
+      sc2_flag: true,
+      curFunds: this.state.curFunds + 12
+    })
+  }
+
+  scene3 = () => {
+    alert("woah man scene 3 here")
+    console.log("woah")
+    this.setState({
+      sc3_flag: true,
+      agriculture_perc: this.state.agriculture_perc - 7
+    })
+  }
+
+  scene4 = () => {
+    console.log("woah")
+    alert("woah man scene 4 here")
+    this.setState({
+      sc4_flag: true,
+      agriculture_perc: this.state.agriculture_perc + 5
+    })
+  }
+
+  scene5 = () => {
+    console.log("woah")
+    alert("woah man scene 5 here")
+    this.setState({
+      sc5_flag: true,
+      defence_perc: this.state.defence_perc - 4
+    })
+  }
+
+  scene6 = () => {
+    console.log("woah")
+    alert("woah man scene 6 here")
+    this.setState({
+      sc6_flag: true,
+      defence_perc: this.state.defence_perc + 8
+    })
+  }
+
+  scene7 = () => {
+    console.log("woah")
+    alert("woah man scene 7 here")
+    this.setState({
+      sc7_flag: true,
+      curFunds: this.state.curFunds + 4
+    })
+  }
+
+  scene8 = () => {
+    console.log("woah")
+    alert("woah man scene 8 here")
+    this.setState({
+      sc8_flag: true,
+      education_perc: this.state.education_perc + 10
     })
   }
 
@@ -500,7 +549,7 @@ class GameSpace extends Component {
         total: this.state.term,
         approval: this.state.startApproval,
       })
-      // this.scenarios()
+      this.scenarios()
       this.startTimer()
     }
  }
@@ -524,6 +573,24 @@ class GameSpace extends Component {
         if ((this.state.total - this.state.time) - this.state.last_fund > 20 && (this.state.total - this.state.time) > 5)
         {
           this.updateFund()
+          // this.scene8()
+          // alert(this.state.time)
+          // alert(this.state.sc1_flag)
+          // alert(this.state.sc1_time)
+          // alert(this.state.sc2_flag)
+          // alert(this.state.sc2_time)
+          // alert(this.state.sc3_flag)
+          // alert(this.state.sc3_time)
+          // alert(this.state.sc4_flag)
+          // alert(this.state.sc4_time)
+          // alert(this.state.sc5_flag)
+          // alert(this.state.sc5_time)
+          // alert(this.state.sc6_flag)
+          // alert(this.state.sc6_time)
+          // alert(this.state.sc7_flag)
+          // alert(this.state.sc7_time)
+          // alert(this.state.sc8_flag)
+          // alert(this.state.sc8_time)
         }
 
         if ((this.state.total - this.state.time) - this.state.last_app > 1 && (this.state.total - this.state.time) > 5)
@@ -539,6 +606,38 @@ class GameSpace extends Component {
         if (this.state.curFunds < 0)
         {
           this.minFunds()
+        }
+
+        if (this.state.sc1_flag == false && this.state.time > this.state.sc1_time - 2 && this.state.time < this.state.sc1_time + 2){
+          this.scene1()
+        }
+
+        if (this.state.sc2_flag == false && this.state.time > this.state.sc2_time - 1 && this.state.time < this.state.sc2_time + 1){
+          this.scene2()
+        }
+
+        if (this.state.sc3_flag == false && this.state.time > this.state.sc3_time - 1 && this.state.time < this.state.sc3_time + 1){
+          this.scene3()
+        }
+
+        if (this.state.sc4_flag == false && this.state.time > this.state.sc4_time - 1 && this.state.time < this.state.sc4_time + 1){
+          this.scene4()
+        }
+
+        if ((this.state.sc5_flag == false) && this.state.time > this.state.sc5_time - 1 && this.state.time < this.state.sc5_time + 1){
+          this.scene5()
+        }
+
+        if ((this.state.sc6_flag == false) && this.state.time > this.state.sc6_time - 1 && this.state.time < this.state.sc6_time + 1){
+          this.scene6()
+        }
+
+        if ((this.state.sc7_flag == false) && this.state.time > this.state.sc7_time - 1 && this.state.time < this.state.sc7_time + 1){
+          this.scene7()
+        }
+
+        if (this.state.sc8_flag == false && this.state.time > this.state.sc8_time - 1 && this.state.time < this.state.sc8_time + 1){
+          this.scene8()
         }
 
         skills_health = [
