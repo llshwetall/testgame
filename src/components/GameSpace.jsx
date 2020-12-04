@@ -527,7 +527,7 @@ class GameSpace extends Component {
   }
 
   scene1 = () => {
-    this.setModalValues("BAD NEWS!", "The implementation of health policies has been riddled with corruption!! ")
+    this.setModalValues("BAD NEWS!", "The implementation of health policies has been riddled with corruption and has reduced the performance of the health department by 5%")
     this.setState({
       sc1_flag: true,
       health_perc: this.state.health_perc - 5,
@@ -535,7 +535,7 @@ class GameSpace extends Component {
   }
 
   scene2 = () => {
-    this.setModalValues("Scene2", "hellos")
+    this.setModalValues("GOOD NEWS!", "UN has declared you the best prime minister in the world and hence has awarded monetary funds worth 9 trillion rupees")
     this.setState({
       sc2_flag: true,
       curFunds: this.state.curFunds + 9
@@ -543,7 +543,7 @@ class GameSpace extends Component {
   }
 
   scene3 = () => {
-    this.setModalValues("Scene3", "hellos")
+    this.setModalValues("BAD NEWS!", "Locusts have destroyed many crops in the northern states. This has negatively affected the functioning of the agriculture department by 3%")
     this.setState({
       sc3_flag: true,
       agriculture_perc: this.state.agriculture_perc - 3
@@ -551,7 +551,7 @@ class GameSpace extends Component {
   }
 
   scene4 = () => {
-    this.setModalValues("Scene4", "hellos")
+    this.setModalValues("GOOD NEWS!", "Better equipment and storage facilities have been built. This has boosted agriculture department performance by 4%")
     this.setState({
       sc4_flag: true,
       agriculture_perc: this.state.agriculture_perc + 4
@@ -559,15 +559,15 @@ class GameSpace extends Component {
   }
 
   scene5 = () => {
-    this.setModalValues("Scene5", "hellos")
+    this.setModalValues("BAD NEWS!", "A top politician was caught embezzeling funds for the department. This has reduced the performance of the defence department by 4%")
     this.setState({
       sc5_flag: true,
-      defence_perc: this.state.defence_perc - 2
+      defence_perc: this.state.defence_perc - 4
     })
   }
 
   scene6 = () => {
-    this.setModalValues("Scene6", "hellos")
+    this.setModalValues("GOOD NEWS!", "The committee overseeing implementation of the policies has adopted new lean and streamlined methodologies. This has boosted the performance of the defence department by 3%")
     this.setState({
       sc6_flag: true,
       defence_perc: this.state.defence_perc + 3
@@ -575,7 +575,7 @@ class GameSpace extends Component {
   }
 
   scene7 = () => {
-    this.setModalValues("Scene7", "hellos")
+    this.setModalValues("GOOD NEWS!", "Agriculture exports have been very profitable this year. You get 6 trillion rupees as extra funds")
     this.setState({
       sc7_flag: true,
       curFunds: this.state.curFunds + 6
@@ -583,10 +583,10 @@ class GameSpace extends Component {
   }
 
   scene8 = () => {
-    this.setModalValues("Scene8", "hellos")
+    this.setModalValues("BAD NEWS!", "A wave of flat earthers and anti-vaccinists have taken over the running of the department, imapcting it's functioning negatively by 6%")
     this.setState({
       sc8_flag: true,
-      education_perc: this.state.education_perc + 5
+      education_perc: this.state.education_perc - 6
     })
   }
 
@@ -739,7 +739,7 @@ class GameSpace extends Component {
         <div style={{ paddingTop: 30 }}><SkillBar skills={skills_edu}  height={45} width={55} /></div>
         </Col>
 
-        <Col xs={{ span: 7, offset: 2 }} md={{ span: 5, offset: 1 }} style={{ paddingTop: 60}}>
+        <Col xs={{ span: 7, offset: 2 }} md={{ span: 5, offset: 1 }} style={{ paddingTop: 40}}>
 
 
         <Card bg='light'
@@ -754,6 +754,8 @@ class GameSpace extends Component {
         <div >
         <div> Current funding : {this.state.curFunds.toFixed(2)} trillion rupees </div>
         <div> Time left : {Math.ceil(this.state.time) /2 } weeks </div>
+        <div> Min. voter approval that needs to be maintained: {this.state.minApproval}% </div>
+        <div> Min. voter approval at the end of term to win: {this.state.minWinApproval}% </div>
         </div>
         </Card.Text>
         </Card.Body>
@@ -762,7 +764,7 @@ class GameSpace extends Component {
         text= 'white'
         style={{ width: '30rem' }}
         className="mb-2">
-        <Card.Header>Voter Approval:</Card.Header>
+        <Card.Header>Voter Approval: {this.state.approval} % </Card.Header>
         <Card.Body>
         <Card.Text>
         <div >
@@ -942,9 +944,7 @@ class GameSpace extends Component {
 
       return (
           <React.Fragment>
-          {Playing}
-
-
+            {Playing}
           </React.Fragment>
         );
     }
