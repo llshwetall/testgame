@@ -38,9 +38,9 @@ class GameSpace extends Component {
     last_fund: 0,
     last_app: 0,
     health_perc: 68,
-    defence_perc: 62,
-    agriculture_perc: 67,
-    education_perc: 80,
+    defence_perc: 77,
+    agriculture_perc: 80,
+    education_perc: 71,
     last_health_perc: 60,
     last_defence_perc: 60,
     last_agriculture_perc: 60,
@@ -502,7 +502,7 @@ class GameSpace extends Component {
   }
 
   scene1 = () => {
-    this.setModalValues("Scene1", "hellos")
+    this.setModalValues("BAD NEWS!", "The implementation of health policies has been riddled with corruption!! ")
     this.setState({
       sc1_flag: true,
       health_perc: this.state.health_perc - 5,
@@ -708,10 +708,10 @@ class GameSpace extends Component {
         <Row noGutters className="justify-content-md-center "  style={{top: '20rem'}}>
 
         <Col xs={{ span: 4, offset: 1 }} md={{ span: 3, offset: 0 }} style={{ paddingTop: 100}}>
-        <SkillBar skills={skills_health}  height={40} width={60} style={{ paddingTop: 1 }}/>
-        <div style={{ paddingTop: 20 }}><SkillBar skills={skills_defense}  height={40} width={55} /></div>
-        <div style={{ paddingTop: 20 }}><SkillBar skills={skills_agr}  height={40} width={55} /></div>
-        <div style={{ paddingTop: 20 }}><SkillBar skills={skills_edu}  height={40} width={55} /></div>
+        <SkillBar skills={skills_health}  height={45} width={60} style={{ paddingTop: 10 }}/>
+        <div style={{ paddingTop: 30 }}><SkillBar skills={skills_defense}  height={45} width={55} /></div>
+        <div style={{ paddingTop: 30 }}><SkillBar skills={skills_agr}  height={45} width={55} /></div>
+        <div style={{ paddingTop: 30 }}><SkillBar skills={skills_edu}  height={45} width={55} /></div>
         </Col>
 
         <Col xs={{ span: 7, offset: 2 }} md={{ span: 5, offset: 1 }} style={{ paddingTop: 60}}>
