@@ -150,9 +150,9 @@ class GameSpace extends Component {
     let y = x
     if (y < 0)
     {
-      y = 2.1*x
+      y = 0.9*x
     }
-    y = this.state.health_perc + y
+    y = this.state.health_perc + y*1.2
     this.setState({
       time: this.state.time,
       health_perc: Number(y),
@@ -163,9 +163,9 @@ class GameSpace extends Component {
     let y = x
     if (y < 0)
     {
-      y = 1.8*x
+      y = 0.9*x
     }
-    y = this.state.defence_perc + y
+    y = this.state.defence_perc + y*1.1
     this.setState({
       defence_perc: Number(y),
     })
@@ -175,10 +175,10 @@ class GameSpace extends Component {
     let y = x
     if (y < 0)
     {
-      y = 1.7*x
+      y = 0.9*x
     }
 
-    y = this.state.agriculture_perc + y
+    y = this.state.agriculture_perc + y*1.1
     this.setState({
       agriculture_perc: Number(y),
     })
@@ -188,9 +188,9 @@ class GameSpace extends Component {
     let y = x
     if (y < 0)
     {
-      y = 1.7*x
+      y = 0.9*x
     }
-    y = this.state.education_perc + y
+    y = this.state.education_perc + y*1.1
     this.setState({
       education_perc: Number(y),
     })
