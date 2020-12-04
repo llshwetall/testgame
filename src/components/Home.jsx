@@ -27,6 +27,7 @@ class Home extends Component {
     mode: 1,
     showTutorial: false,
   }
+
   constructor(props) {
     super(props)
   }
@@ -40,7 +41,7 @@ class Home extends Component {
       else if (element.target.value === "Normal")
       {
         // alert(element.target.value)
-        this.setState({mode: 1, term: glob.normalTerm, startApproval: glob.normalStartApproval, minApproval: glob.normalMinWinApproval, minApproval: glob.normalMinWinApproval})
+        this.setState({mode: 1, term: glob.normalTerm, startApproval: glob.normalStartApproval, minApproval: glob.normalMinApproval, minWinApproval: glob.normalMinWinApproval})
       }
     }
 

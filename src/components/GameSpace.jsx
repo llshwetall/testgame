@@ -32,7 +32,7 @@ class GameSpace extends Component {
     curFunds: 12,
     food: 100,
     time: 1000,
-    total: 240,
+    total: this.props.location.info.term,
     start: 0,
     last: 0,
     last_fund: 0,
