@@ -17,6 +17,7 @@ class Home extends Component {
     term: glob.normalTerm,
     startApproval: glob.normalStartApproval,
     minApproval : glob.normalMinApproval,
+    minWinApproval : glob.normalMinWinApproval,
     mode: 1
   }
   constructor(props) {
@@ -27,12 +28,12 @@ class Home extends Component {
       if (element.target.value === "Quick")
       {
         // alert(element.target.value)
-        this.setState({mode: 2, term: glob.quickTerm, startApproval: glob.quickStartApproval, minApproval: glob.quickMinApproval})
+        this.setState({mode: 2, term: glob.quickTerm, startApproval: glob.quickStartApproval, minApproval: glob.quickMinApproval, minWinApproval: glob.quickMinWinApproval})
       }
       else if (element.target.value === "Normal")
       {
         // alert(element.target.value)
-        this.setState({mode: 1, term: glob.normalTerm, startApproval: glob.normalStartApproval, minApproval: glob.normalMinApproval})
+        this.setState({mode: 1, term: glob.normalTerm, startApproval: glob.normalStartApproval, minApproval: glob.normalMinWinApproval, minApproval: glob.normalMinWinApproval})
       }
     }
 
@@ -58,6 +59,7 @@ class Home extends Component {
                   term: this.state.term,
                   startApproval : this.state.startApproval,
                   minApproval : this.state.minApproval,
+                  minWinApproval : this.state.minWinApproval,
                   mode : this.state.mode
                  }
               }}

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from "react-router-dom";
 import NavBar from './NavBar.jsx';
 import AccordionElement from './AccordionElement.jsx';
 import glob from './global.jsx'
@@ -9,7 +10,13 @@ import Col from 'react-bootstrap/Col'
 import { PieChart } from 'react-minimal-pie-chart';
 import Card from 'react-bootstrap/Card'
 import Sound from 'react-sound';
-import { Redirect } from 'react-router';
+import Modal from 'react-bootstrap/Modal';
+import ModalDialog from 'react-bootstrap/ModalDialog';
+import ModalHeader from 'react-bootstrap/ModalHeader';
+import ModalTitle from 'react-bootstrap/ModalTitle';
+import ModalBody from 'react-bootstrap/ModalBody';
+import ModalFooter from 'react-bootstrap/ModalFooter';
+
 
 
 class GameSpace extends Component {
@@ -20,6 +27,7 @@ class GameSpace extends Component {
     term: this.props.location.info.term,
     startApproval: this.props.location.info.startApproval,
     minApproval : this.props.location.info.minApproval,
+    minWinApproval : this.props.location.info.minWinApproval,
     mode: this.props.location.info.mode,
     curFunds: 12,
     food: 100,
@@ -56,6 +64,10 @@ class GameSpace extends Component {
     approval: 40,
     dept : undefined,
     curDept : glob.healthId,
+    timeLeft : undefined,
+    showModal: false,
+    ModalMessage: "",
+    ModalTitle: "",
     depts: [
         { id: glob.healthId, label: "Health Policies", info: glob.healthInfo,invst: glob.healthInvst},
         { id: glob.defenceId, label: "Defence Policies" ,info: glob.defenceInfo,invst: glob.defenceInvst },
@@ -93,14 +105,14 @@ class GameSpace extends Component {
       { id: glob.agricultureOp8, label: glob.agricultureOp8Label + String(glob.agricultureOp8Cost), cost: glob.agricultureOp8Cost , status: false, info: glob.agricultureOp8Info},
     ],
     educationOptions: [
-      { id: glob.educationOp1, label: glob.educationOp1Label + String(glob.educationOp1), cost: glob.educationOp1Cost, status: false, info: glob.educationOp1Info},
-      { id: glob.educationOp2, label: glob.educationOp2Label + String(glob.educationOp2), cost: glob.educationOp2Cost, status: false, info: glob.educationOp2Info},
-      { id: glob.educationOp3, label: glob.educationOp3Label + String(glob.educationOp3), cost: glob.educationOp3Cost, status: false, info: glob.educationOp3Info},
-      { id: glob.educationOp4, label: glob.educationOp4Label + String(glob.educationOp4), cost: glob.educationOp4Cost, status: false, info: glob.educationOp4Info},
-      { id: glob.educationOp5, label: glob.educationOp5Label + String(glob.educationOp5), cost: glob.educationOp5Cost, status: false, info: glob.educationOp5Info},
-      { id: glob.educationOp6, label: glob.educationOp6Label + String(glob.educationOp6), cost: glob.educationOp6Cost, status: false, info: glob.educationOp6Info},
-      { id: glob.educationOp7, label: glob.educationOp7Label + String(glob.educationOp7), cost: glob.educationOp7Cost, status: false, info: glob.educationOp7Info},
-      { id: glob.educationOp8, label: glob.educationOp8Label + String(glob.educationOp8), cost: glob.educationOp8Cost, status: false, info: glob.educationOp8Info},
+      { id: glob.educationOp1, label: glob.educationOp1Label + String(glob.educationOp1Cost), cost: glob.educationOp1Cost, status: false, info: glob.educationOp1Info},
+      { id: glob.educationOp2, label: glob.educationOp2Label + String(glob.educationOp2Cost), cost: glob.educationOp2Cost, status: false, info: glob.educationOp2Info},
+      { id: glob.educationOp3, label: glob.educationOp3Label + String(glob.educationOp3Cost), cost: glob.educationOp3Cost, status: false, info: glob.educationOp3Info},
+      { id: glob.educationOp4, label: glob.educationOp4Label + String(glob.educationOp4Cost), cost: glob.educationOp4Cost, status: false, info: glob.educationOp4Info},
+      { id: glob.educationOp5, label: glob.educationOp5Label + String(glob.educationOp5Cost), cost: glob.educationOp5Cost, status: false, info: glob.educationOp5Info},
+      { id: glob.educationOp6, label: glob.educationOp6Label + String(glob.educationOp6Cost), cost: glob.educationOp6Cost, status: false, info: glob.educationOp6Info},
+      { id: glob.educationOp7, label: glob.educationOp7Label + String(glob.educationOp7Cost), cost: glob.educationOp7Cost, status: false, info: glob.educationOp7Info},
+      { id: glob.educationOp8, label: glob.educationOp8Label + String(glob.educationOp8Cost), cost: glob.educationOp8Cost, status: false, info: glob.educationOp8Info},
     ],
   }
 
@@ -115,6 +127,24 @@ class GameSpace extends Component {
       default: break;
     }
   }
+  getDeptName = (id) => {
+    switch(id)
+    {
+      case glob.healthId : return 'Health';
+      case glob.educationId : return 'Education';
+      case glob.agricultureId : return 'Agriculture';
+      case glob.defenceId : return 'Defence';
+      default: break;
+    }
+  }
+
+  handleCloseModal = () => {
+      this.setState({ showModal: false });
+    }
+
+    setModalValues = (title, message) => {
+      this.setState({ showModal: true, ModalMessage: message, ModalTitle:title })
+    }
 
   increaseHealth = (x) => {
     let y = x
@@ -183,7 +213,7 @@ class GameSpace extends Component {
         {
           if (this.state.curFunds < c.cost)
           {
-            alert("Not enough funds bruh")
+            this.setModalValues("Insufficient Funds", "You don't have enough funds right now to implement this policy")
             c.status = !c.status
           }
           else
@@ -213,7 +243,7 @@ class GameSpace extends Component {
         {
           if (this.state.curFunds < c.cost)
           {
-            alert("Not enough funds bruh")
+            this.setModalValues("Insufficient Funds", "You don't have enough funds right now to implement this policy")
             c.status = !c.status
           }
           else{
@@ -243,7 +273,7 @@ class GameSpace extends Component {
         {
           if (this.state.curFunds < c.cost)
           {
-            alert("Not enough funds bruh")
+            this.setModalValues("Insufficient Funds", "You don't have enough funds right now to implement this policy")
             c.status = !c.status
           }
           else{
@@ -273,7 +303,7 @@ class GameSpace extends Component {
         {
           if (this.state.curFunds < c.cost)
           {
-            alert("Not enough funds bruh")
+            this.setModalValues("Insufficient Funds", "You don't have enough funds right now to implement this policy")
             c.status = !c.status
           }
           else
@@ -317,7 +347,7 @@ class GameSpace extends Component {
 
     if (isNaN(health_rate))
     {
-      alert(this.state.health_perc)
+      console.log(this.state.health_perc)
     }
 
     this.setState({
@@ -439,7 +469,7 @@ class GameSpace extends Component {
       sc8_flag = false
     }
 
-    alert(this.state.time)
+    // alert(this.state.time)
     this.setState({
       sc1_flag: sc1_flag,
       sc2_flag: sc2_flag,
@@ -467,12 +497,12 @@ class GameSpace extends Component {
   }
 
   handleGameOver = (over, id) => {
-    this.setState({ isGameOver: true, isDeptOverId: id, overId: over})
+    let t =  Math.ceil(this.state.time) /2
+    this.setState({ isGameOver: true, isDeptOverId: id, overId: over, timeLeft: t })
   }
 
   scene1 = () => {
-    alert("woah man scene 1 here")
-    console.log("woah")
+    this.setModalValues("Scene1", "hellos")
     this.setState({
       sc1_flag: true,
       health_perc: this.state.health_perc - 5,
@@ -480,65 +510,58 @@ class GameSpace extends Component {
   }
 
   scene2 = () => {
-    alert("woah man scene 2 here")
-    console.log("woah")
+    this.setModalValues("Scene2", "hellos")
     this.setState({
       sc2_flag: true,
-      curFunds: this.state.curFunds + 12
+      curFunds: this.state.curFunds + 9
     })
   }
 
   scene3 = () => {
-    alert("woah man scene 3 here")
-    console.log("woah")
+    this.setModalValues("Scene3", "hellos")
     this.setState({
       sc3_flag: true,
-      agriculture_perc: this.state.agriculture_perc - 7
+      agriculture_perc: this.state.agriculture_perc - 3
     })
   }
 
   scene4 = () => {
-    console.log("woah")
-    alert("woah man scene 4 here")
+    this.setModalValues("Scene4", "hellos")
     this.setState({
       sc4_flag: true,
-      agriculture_perc: this.state.agriculture_perc + 5
+      agriculture_perc: this.state.agriculture_perc + 4
     })
   }
 
   scene5 = () => {
-    console.log("woah")
-    alert("woah man scene 5 here")
+    this.setModalValues("Scene5", "hellos")
     this.setState({
       sc5_flag: true,
-      defence_perc: this.state.defence_perc - 4
+      defence_perc: this.state.defence_perc - 2
     })
   }
 
   scene6 = () => {
-    console.log("woah")
-    alert("woah man scene 6 here")
+    this.setModalValues("Scene6", "hellos")
     this.setState({
       sc6_flag: true,
-      defence_perc: this.state.defence_perc + 8
+      defence_perc: this.state.defence_perc + 3
     })
   }
 
   scene7 = () => {
-    console.log("woah")
-    alert("woah man scene 7 here")
+    this.setModalValues("Scene7", "hellos")
     this.setState({
       sc7_flag: true,
-      curFunds: this.state.curFunds + 4
+      curFunds: this.state.curFunds + 6
     })
   }
 
   scene8 = () => {
-    console.log("woah")
-    alert("woah man scene 8 here")
+    this.setModalValues("Scene8", "hellos")
     this.setState({
       sc8_flag: true,
-      education_perc: this.state.education_perc + 10
+      education_perc: this.state.education_perc + 5
     })
   }
 
@@ -573,24 +596,6 @@ class GameSpace extends Component {
         if ((this.state.total - this.state.time) - this.state.last_fund > 20 && (this.state.total - this.state.time) > 5)
         {
           this.updateFund()
-          // this.scene8()
-          // alert(this.state.time)
-          // alert(this.state.sc1_flag)
-          // alert(this.state.sc1_time)
-          // alert(this.state.sc2_flag)
-          // alert(this.state.sc2_time)
-          // alert(this.state.sc3_flag)
-          // alert(this.state.sc3_time)
-          // alert(this.state.sc4_flag)
-          // alert(this.state.sc4_time)
-          // alert(this.state.sc5_flag)
-          // alert(this.state.sc5_time)
-          // alert(this.state.sc6_flag)
-          // alert(this.state.sc6_time)
-          // alert(this.state.sc7_flag)
-          // alert(this.state.sc7_time)
-          // alert(this.state.sc8_flag)
-          // alert(this.state.sc8_time)
         }
 
         if ((this.state.total - this.state.time) - this.state.last_app > 1 && (this.state.total - this.state.time) > 5)
@@ -679,16 +684,9 @@ class GameSpace extends Component {
         }
       }
 
-      // if (this.state.sc1_flag)
-      // <div style={{color:'white'}}>
-      //  Current funding : {(this.state.curFunds).toFixed(2)}
-      //  Time left : {Math.ceil(this.state.time)}
-      //  Approval : {this.state.approval}
-      //  health_perc : {this.state.health_perc}
-      //  defence_perc : {this.state.defence_perc}
-      //  agriculture_perc : {this.state.agriculture_perc}
-      //  education_perc : {this.state.education_perc}</div>
       let Playing = undefined
+      let DaysLeft = undefined
+      let overRender = undefined
 
       if (!this.state.isGameOver)
       {
@@ -777,12 +775,143 @@ class GameSpace extends Component {
         </Col>
         </Row>
         </Container>
+
+        <Modal show={this.state.showModal} onHide={this.handleCloseModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>{this.state.ModalTitle}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>{this.state.ModalMessage}</Modal.Body>
+
+        </Modal>
         </div>
+
 
       }
       else
       {
-        alert(this.state.overId)
+        if(this.state.overId == glob.timeOver && this.state.approval >= this.state.minWinApproval)
+        {
+
+          Playing = <div> <Container fluid style={{ paddingLeft: 15, paddingRight: 15 }}>
+          <Row noGutters className="justify-content-md-left align-items-center"  style={{top: '20rem'}}>
+          <img src="../congo.png" alt= "edit" width="650" height="160"/>
+          </Row>
+          </Container>
+
+
+          <Container fluid style={{ paddingLeft: 15, paddingRight: 15, paddingTop: 60 }}>
+          <Row noGutters className="justify-content-md-center align-items-center"  style={{top: '80rem'}}>
+          <Card bg='light'
+
+          text= 'dark'
+          style={{ width: '40rem' }}
+          className="mb-2">
+          <Card.Header>Congratulations!! You have enough voter approval to win the upcoming elections</Card.Header>
+          <Card.Body>
+          <Card.Title>End of Term Report</Card.Title>
+          <Card.Text>
+          <div >
+          <div> Voter Approval : {this.state.approval} % </div>
+          <div> Funds Left : {this.state.curFunds} trillion rupees  </div>
+          <div> State of each department (performance): </div>
+          <ul>
+            <li> Health Department : {this.state.health_perc} </li>
+            <li> Defence Department : {this.state.defence_perc} </li>
+            <li> Agriculture Department : {this.state.agriculture_perc} </li>
+            <li> Education Department : {this.state.education_perc} </li>
+          </ul>
+          </div>
+          </Card.Text>
+          </Card.Body>
+          </Card>
+          </Row>
+          </Container>
+
+
+          <Container fluid style={{ paddingLeft: 15, paddingRight: 15 }}>
+          <Row noGutters className="justify-content-md-center align-items-center"  style={{top: '20rem'}}>
+          <Link to = {{ pathname: "/" }} >
+          <button type="button" className="btn btn-light btn-lg btn-block">
+            Play Again
+          </button>
+          </Link>
+
+          </Row>
+          </Container>
+          </div>
+        }
+        else
+        {
+          if(this.state.overId == glob.timeOver)
+          {
+            overRender = 'You do not have enough voter approval to win the next election';
+          }
+          else if(this.state.overId == glob.approvalOver)
+          {
+            overRender = 'YOU HAVE BEEN IMPEACHED!!!! You do not have enough voter approval to complete your term' ;
+            DaysLeft = <li>Weeks Left:   {this.state.timeLeft} weeks </li>
+          }
+          else if(this.state.overId == glob.deptOver)
+          {
+            overRender = "YOU HAVE BEEN IMPEACHED!!!!  The state of the " + this.getDeptName(this.state.isDeptOverId) + " Department is pitiable. It has run out of funds and there's chaos everywhere.";
+            DaysLeft = <li>Weeks Left:   {this.state.timeLeft} weeks </li>
+          }
+
+
+
+
+
+
+          Playing = <div> <Container fluid style={{ paddingLeft: 15, paddingRight: 15 }}>
+          <Row noGutters className="justify-content-md-left align-items-center"  style={{top: '20rem'}}>
+          <img src="../gameover.png" alt= "edit" width="650" height="160"/>
+          </Row>
+          </Container>
+
+
+          <Container fluid style={{ paddingLeft: 15, paddingRight: 15, paddingTop: 60 }}>
+          <Row noGutters className="justify-content-md-center align-items-center"  style={{top: '80rem'}}>
+          <Card bg='light'
+
+          text= 'dark'
+          style={{ width: '40rem' }}
+          className="mb-2">
+          <Card.Header> {overRender} </Card.Header>
+          <Card.Body>
+          <Card.Title>End of Term Report</Card.Title>
+          <Card.Text>
+          <div >
+          <div> Voter Approval : {this.state.approval} % </div>
+          <div> Funds Left : {this.state.curFunds} trillion rupees  </div>
+          <div> State of each department (performance): </div>
+          <ul>
+            <li> Health Department : {this.state.health_perc} </li>
+            <li> Defence Department : {this.state.defence_perc} </li>
+            <li> Agriculture Department : {this.state.agriculture_perc} </li>
+            <li> Education Department : {this.state.education_perc} </li>
+            {DaysLeft}
+          </ul>
+          </div>
+          </Card.Text>
+          </Card.Body>
+          </Card>
+          </Row>
+          </Container>
+
+
+          <Container fluid style={{ paddingLeft: 15, paddingRight: 15 }}>
+          <Row noGutters className="justify-content-md-center align-items-center"  style={{top: '20rem'}}>
+          <Link to = {{ pathname: "/" }} >
+          <button type="button" className="btn btn-light btn-lg btn-block">
+            Play Again
+          </button>
+          </Link>
+
+          </Row>
+          </Container>
+          </div>
+        }
+
       }
 
 
